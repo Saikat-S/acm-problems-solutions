@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+#Working directories
+/Codechef/Codechef_Try
+/CodeMarshal/CodeMarshal_Try
+/HackerEarth/HackerEarth_Try
+/LightOJ/LOJ_Try
+/Spoj/Spoj_Try
+/Toph/Toph_Try
+/URI/URI_Try
+/Uva/Others
+/Uva/Uva_Try
+/UVALive/UVALive_Try

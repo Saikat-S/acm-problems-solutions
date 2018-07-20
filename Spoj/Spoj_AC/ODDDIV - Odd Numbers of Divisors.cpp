@@ -129,6 +129,12 @@ ll NOD(ll n) {
     return res;
 }
 void preCal() {
+    //~ ll sum = 5;
+    //~ for (ll i = 4; i <= MAX ;) {
+    //~ V.push_back(i);
+    //~ i = i + sum;
+    //~ sum = sum + 2;
+    //~ }
     for (ll i = 1; i < MAX; i++) {
         ll div = NOD(i);
         V[div].push_back(i * i);
@@ -143,7 +149,12 @@ int main () {
         scanf("%lld %lld %lld", &k, &lo, &hi);
         ll x = Upper(k, lo);
         ll y = Lower(k, hi);
+        //~ ll x  = sqrt(lo), y = sqrt(hi);
+        //~ printf("%lld %lld\n", x, y);
         ll cnt = y - x;
+        //~ for (ll i = x; i <= y; i++) {
+            //~ if (k == VV[i]) cnt++;
+        //~ }
         printf("%lld\n", cnt+1);
     }
     return 0;
