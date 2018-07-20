@@ -2,6 +2,8 @@
 
 - Codechef
 - Codeforces
+- HackerRank
+- HackerEarth
 - LightOJ
 - Spoj
 - Toph
