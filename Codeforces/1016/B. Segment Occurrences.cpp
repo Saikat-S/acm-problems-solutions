@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : B.cpp
- * Problem Link :
+ * Problem Name : B. Segment Occurrences.cpp
+ * Problem Link : http://codeforces.com/contest/1016/problem/B
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2018-08-17
- * Problem Type :
+ * Date         : 2018-08-04
+ * Problem Type : Educational - B
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -37,12 +37,7 @@
 #define pf(n) scanf("%d", n)
 #define pfl(n) scanf("%lld", n)
 #define all(v) v.begin(), v.end()
-#define Pow2(x) ((x)*(x))
-#define Mod(x, m) ((((x) % (m)) + (m)) % (m))
-#define Max3(a, b, c) max(a, max(b, c))
-#define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
-#define mk make_pair
 #define MAX 100005
 #define INF 1000000000
 using namespace std;
@@ -59,48 +54,84 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-bool cmp (string a, string b) {
-    if (a.size() == b.size() ) return a > b;
-    else return a.size() > b.size();
-}
 int main () {
     __FastIO;
-    int n;
-    string str;
-    vector<string>V, ans;
-    cin >> n;
+    int N, n, Q;
+    cin >> N >> n >> Q;
+    string str, t;
+    cin >> str >> t;
+    vector<int>ans;
+    int sum[N + 3];
+    SET (sum, 0);
+    int cnt = 0;
 
-    for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        V.push_back (s);
-    }
+    for (int i = 0; i < (int) str.size(); i++) {
+        int c = 0;
 
-    sort (V.begin(), V.end(), cmp);
-    int flag = 0;
-
-    for (int i = 1; i < n; i++) {
-        string pp = V[i - 1];
-        string cc = V[i];
-        std::size_t found = pp.find (cc);
-
-        if (found != std::string::npos) {
-        } else {
-            flag  =  1;
-            break;
-        }
-    }
-
-    if (flag == 0) {
-        cout << "YES\n";
-
-        for (int i = n - 1; i >= 0; i--) {
-            cout << V[i] << "\n";
+        for (int j = i; c < n && j < N; j++, c++) {
+            if (str[j] != t[c]) break;
         }
 
-        cout << "\n";
+        if (c == n) {
+            cnt++;
+        }
 
-    } else cout << "NO\n";
+        sum[i] = cnt;
+    }
+
+    for (int q = 1; q <= Q; q++) {
+        int x, y;
+        cin >> x >> y;
+        x--, y--;
+
+        if ( (y - x) + 1 >= n) {
+            int a = sum[x];
+            int b = sum[y - n + 1];
+            string s = str.substr (x, n);
+
+            if (s == t) a--;
+
+            cout << (b - a) << "\n";
+
+        } else cout << "0\n";
+    }
 
     return 0;
 }
+/*
+10 3 4
+codeforces
+for
+1 3
+3 10
+5 6
+5 7
+
+0
+1
+0
+1
+
+
+15 2 3
+abacabadabacaba
+ba
+1 15
+3 4
+2 14
+
+
+4
+0
+3
+
+
+3 5 2
+aaa
+baaab
+1 3
+1 1
+
+0
+0
+* */

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : B.cpp
- * Problem Link :
+ * Problem Name : A. Death Note.cpp
+ * Problem Link : http://codeforces.com/contest/1016/problem/A
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2018-08-17
- * Problem Type :
+ * Date         : 2018-08-04
+ * Problem Type : Educational Round - A
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -37,12 +37,7 @@
 #define pf(n) scanf("%d", n)
 #define pfl(n) scanf("%lld", n)
 #define all(v) v.begin(), v.end()
-#define Pow2(x) ((x)*(x))
-#define Mod(x, m) ((((x) % (m)) + (m)) % (m))
-#define Max3(a, b, c) max(a, max(b, c))
-#define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
-#define mk make_pair
 #define MAX 100005
 #define INF 1000000000
 using namespace std;
@@ -59,48 +54,38 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-bool cmp (string a, string b) {
-    if (a.size() == b.size() ) return a > b;
-    else return a.size() > b.size();
-}
 int main () {
     __FastIO;
-    int n;
-    string str;
-    vector<string>V, ans;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
+    int ar[n + 3];
 
     for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        V.push_back (s);
+        cin >> ar[i];
     }
 
-    sort (V.begin(), V.end(), cmp);
-    int flag = 0;
+    int cnt = 0;
+    ll sum = 0;
+    vector<int>ans;
 
-    for (int i = 1; i < n; i++) {
-        string pp = V[i - 1];
-        string cc = V[i];
-        std::size_t found = pp.find (cc);
+    for (int i = 0; i < n; i++) {
+        sum += ar[i];
 
-        if (found != std::string::npos) {
+        if (sum >= m) {
+            cnt++;
+            int x = sum / m;
+            sum -= (x * m);
+            ans.push_back (x);
+
         } else {
-            flag  =  1;
-            break;
+            ans.push_back (0);
         }
     }
 
-    if (flag == 0) {
-        cout << "YES\n";
+    for (int i = 0; i < (int) ans.size(); i++) {
+        cout << ans[i] << " ";
+    }
 
-        for (int i = n - 1; i >= 0; i--) {
-            cout << V[i] << "\n";
-        }
-
-        cout << "\n";
-
-    } else cout << "NO\n";
-
+    cout << "\n";
     return 0;
 }

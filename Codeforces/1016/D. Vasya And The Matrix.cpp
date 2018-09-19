@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : B.cpp
- * Problem Link :
+ * Problem Name : D. Vasya And The Matrix.cpp
+ * Problem Link : http://codeforces.com/contest/1016/problem/D
  * OJ           : Codeforces
- * Verdict      : AC
- * Date         : 2018-08-17
- * Problem Type :
+ * Verdict      : Trying
+ * Date         : 2018-08-10
+ * Problem Type : Edu - D
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -59,48 +59,56 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-bool cmp (string a, string b) {
-    if (a.size() == b.size() ) return a > b;
-    else return a.size() > b.size();
-}
 int main () {
-    __FastIO;
-    int n;
-    string str;
-    vector<string>V, ans;
-    cin >> n;
+    //~ __FastIO;
+    int n, m;
+    cin >> n >> m;
+    int row[n + 3], col[m + 3];
 
     for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        V.push_back (s);
+        cin >> row[i];
     }
 
-    sort (V.begin(), V.end(), cmp);
-    int flag = 0;
-
-    for (int i = 1; i < n; i++) {
-        string pp = V[i - 1];
-        string cc = V[i];
-        std::size_t found = pp.find (cc);
-
-        if (found != std::string::npos) {
-        } else {
-            flag  =  1;
-            break;
-        }
+    for (int i = 0; i < m; i++) {
+        cin >> col[i];
     }
 
-    if (flag == 0) {
-        cout << "YES\n";
+    ll A = row[0];
 
-        for (int i = n - 1; i >= 0; i--) {
-            cout << V[i] << "\n";
+    for (int i = 1; i < n; i++) A ^= row[i];
+
+    ll B = col[0];
+
+    for (int i = 1; i < m; i++) B ^= col[i];
+
+    if (A != B) {
+        cout << "NO\n";
+        return 0;
+    }
+    cout << "YES\n";
+    for (int i = 0; i < n; i++) {
+        ll Xor;
+
+        if (i == 0 ) {
+            Xor = row[i];
+
+            for (int j = 0; j < m; j++) Xor ^= col[j];
+
+            cout << Xor << " ";
+
+            for (int j = 1; j < m; j++) cout << col[j] << " ";
+
+            nl;
+            continue;
         }
 
-        cout << "\n";
+        for (int j = 0; j < m; j++) {
+            if (j == 0) cout << row[i] << " ";
+            else cout << "0 ";
+        }
 
-    } else cout << "NO\n";
+        nl;
+    }
 
     return 0;
 }

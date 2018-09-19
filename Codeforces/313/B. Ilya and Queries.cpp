@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : B.cpp
- * Problem Link :
+ * Problem Name : B. Ilya and Queries.cpp
+ * Problem Link : https://codeforces.com/contest/313/problem/B
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2018-08-17
- * Problem Type :
+ * Date         : 2018-09-17
+ * Problem Type : Div 2 - B (Partial Sum)
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -59,48 +59,43 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-bool cmp (string a, string b) {
-    if (a.size() == b.size() ) return a > b;
-    else return a.size() > b.size();
-}
 int main () {
     __FastIO;
-    int n;
+    int n, Q;
     string str;
-    vector<string>V, ans;
-    cin >> n;
+    int ar[MAX];
+    cin >> str;
+    n = (int) str.size();
 
     for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        V.push_back (s);
+		if(str[i] == '.') ar[i + 1] = 1;
+		else ar[i+1] = 2;
     }
 
-    sort (V.begin(), V.end(), cmp);
-    int flag = 0;
+    int sum[MAX];
+    sum[0] = 0;
 
     for (int i = 1; i < n; i++) {
-        string pp = V[i - 1];
-        string cc = V[i];
-        std::size_t found = pp.find (cc);
+        if (ar[i] == ar[i + 1]) {
+            sum[i] = sum[i - 1] + 1;
 
-        if (found != std::string::npos) {
         } else {
-            flag  =  1;
-            break;
+            sum[i] = sum[i - 1];
         }
     }
 
-    if (flag == 0) {
-        cout << "YES\n";
+    sum[n] = sum[n - 1];
+    cin >> Q;
 
-        for (int i = n - 1; i >= 0; i--) {
-            cout << V[i] << "\n";
-        }
+    for (int q = 1 ; q <= Q; q++) {
+        int l, r;
+        cin >> l >> r;
+        int ans = (sum[r - 1] - sum[l]);
 
-        cout << "\n";
+        if (ar[l] == ar[l + 1]) ans++;
 
-    } else cout << "NO\n";
+        cout << ans << "\n";
+    }
 
     return 0;
 }

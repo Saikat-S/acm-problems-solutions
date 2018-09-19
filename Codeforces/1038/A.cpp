@@ -1,9 +1,9 @@
 /***************************************************
- * Problem Name : B.cpp
+ * Problem Name : A.cpp
  * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2018-08-17
+ * Date         : 2018-09-06
  * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
@@ -59,48 +59,24 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-bool cmp (string a, string b) {
-    if (a.size() == b.size() ) return a > b;
-    else return a.size() > b.size();
-}
 int main () {
     __FastIO;
-    int n;
-    string str;
-    vector<string>V, ans;
-    cin >> n;
+    int N, K;
+    string s;
+    cin >> N >> K;
+    cin >> s;
+    map<char, int>cnt;
 
-    for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        V.push_back (s);
+    for (int i = 0; i < N; i++) {
+        cnt[s[i]]++;
     }
 
-    sort (V.begin(), V.end(), cmp);
-    int flag = 0;
+    int mn = 100000;
 
-    for (int i = 1; i < n; i++) {
-        string pp = V[i - 1];
-        string cc = V[i];
-        std::size_t found = pp.find (cc);
-
-        if (found != std::string::npos) {
-        } else {
-            flag  =  1;
-            break;
-        }
+    for (int i = 1, ch = 'A'; i <= K; i++, ch++) {
+        mn = min (mn, cnt[ch]);
     }
 
-    if (flag == 0) {
-        cout << "YES\n";
-
-        for (int i = n - 1; i >= 0; i--) {
-            cout << V[i] << "\n";
-        }
-
-        cout << "\n";
-
-    } else cout << "NO\n";
-
+    cout << mn *K << "\n";
     return 0;
 }

@@ -3,7 +3,7 @@
  * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2018-08-17
+ * Date         : 2018-09-06
  * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
@@ -59,48 +59,34 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-bool cmp (string a, string b) {
-    if (a.size() == b.size() ) return a > b;
-    else return a.size() > b.size();
-}
 int main () {
     __FastIO;
-    int n;
-    string str;
-    vector<string>V, ans;
-    cin >> n;
+    int N;
+    cin >> N;
 
-    for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        V.push_back (s);
-    }
+    if (N <= 2) cout << "No\n";
+    else {
+        cout << "Yes\n";
 
-    sort (V.begin(), V.end(), cmp);
-    int flag = 0;
+        if (N % 2 == 1) {
+            cout << "1 " << (N / 2 + 1) << "\n";
+            cout << N - 1 << " ";
 
-    for (int i = 1; i < n; i++) {
-        string pp = V[i - 1];
-        string cc = V[i];
-        std::size_t found = pp.find (cc);
+            for (int i = 1; i <= N; i++) {
+                if (i != (N / 2 + 1) ) cout << i << " ";
+            }
 
-        if (found != std::string::npos) {
         } else {
-            flag  =  1;
-            break;
-        }
-    }
+            cout << "1 " << N / 2 << "\n";
+            cout << N - 1 << " ";
 
-    if (flag == 0) {
-        cout << "YES\n";
-
-        for (int i = n - 1; i >= 0; i--) {
-            cout << V[i] << "\n";
+            for (int i = 1; i <= N; i++) {
+                if (i != (N / 2) ) cout << i << " ";
+            }
         }
 
         cout << "\n";
-
-    } else cout << "NO\n";
+    }
 
     return 0;
 }

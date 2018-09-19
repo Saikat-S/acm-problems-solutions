@@ -1,9 +1,9 @@
 /***************************************************
- * Problem Name : B.cpp
+ * Problem Name : C. Coffee Break.cpp
  * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2018-08-17
+ * Date         : 2018-09-16
  * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
@@ -43,7 +43,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 200005
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -59,48 +59,47 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-bool cmp (string a, string b) {
-    if (a.size() == b.size() ) return a > b;
-    else return a.size() > b.size();
-}
 int main () {
     __FastIO;
-    int n;
-    string str;
-    vector<string>V, ans;
-    cin >> n;
+    ll n, m, d;
+    cin >> n >> m >> d;
+    ll ar[n + 5];
+    set<ll>stt;
 
-    for (int i = 0; i < n; i++) {
-        string s;
-        cin >> s;
-        V.push_back (s);
+    for (int i = 1; i <= n; i++) {
+        cin >> ar[i];
+        stt.insert (ar[i]);
     }
 
-    sort (V.begin(), V.end(), cmp);
-    int flag = 0;
+    int c = 1;
+    map<ll, int>mp;
 
-    for (int i = 1; i < n; i++) {
-        string pp = V[i - 1];
-        string cc = V[i];
-        std::size_t found = pp.find (cc);
+    while (!stt.empty() ) {
+        auto it = stt.begin();
+        ll x = *it;
+        mp[x] = c;
+        stt.erase (it);
+        ll xx = x + d;
+        auto up = stt.upper_bound (xx);
 
-        if (found != std::string::npos) {
-        } else {
-            flag  =  1;
-            break;
+        while (up != stt.end() ) {
+            x = *up;
+            mp[x] = c;
+            xx = x + d;
+            stt.erase (up);
+            up = stt.upper_bound (xx);
         }
+
+        c++;
     }
 
-    if (flag == 0) {
-        cout << "YES\n";
+    c--;
+    cout << c << "\n";
 
-        for (int i = n - 1; i >= 0; i--) {
-            cout << V[i] << "\n";
-        }
+    for (int i = 1; i <= n; i++) {
+        cout << mp[ar[i]] << " ";
+    }
 
-        cout << "\n";
-
-    } else cout << "NO\n";
-
+    nl;
     return 0;
 }
