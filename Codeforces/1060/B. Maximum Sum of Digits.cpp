@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : C. Another Problem on Strings.cpp
- * Problem Link : https://codeforces.com/contest/165/problem/C
+ * Problem Name : B. Maximum Sum of Digits.cpp
+ * Problem Link : https://codeforces.com/contest/1060/problem/B
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-10-01
- * Problem Type : Div 2 - C
+ * Verdict      : AC
+ * Date         : 2018-10-04
+ * Problem Type : Div 1, 2 - B
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -59,72 +59,26 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-int twoPointer (int k, string str) {
-    int n = (int) str.size();
-    int i = 0, j = 0, cnt = 0, ans = 0;
+ll digitSum (ll n) {
+    ll sum = 0;
 
-    while (1) {
-        //~ debug;
-        if (j == n) {
-            if (str[i] == '1') cnt--;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j==n && i " << ans << "\n";
-            }
-
-            i++;
-
-            if (i == n) break;
-
-        } else if (str[j] == '1' && cnt < k ) {
-            cnt++;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j && 1 " << ans << "\n";
-            }
-
-            j++;
-            //~ if (j == n && cnt < k) break;
-
-        } else if (str[j] == '1' && cnt == k ) {
-            if (str[i] == '1') cnt--;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j && i++ " << ans << "\n";
-            }
-
-            i++;
-
-        } else if (str[j] == '0') {
-            if (cnt == k) ans++;
-
-            j++;
+    while (n >= 10) {
+        if (n % 10 == 9) {
+            sum += n % 10;
+            n /= 10;
 
         } else {
-            //~ if (cnt == k) {
-            //~ ans++;
-            //~ cout << "cnt == k " << ans << "\n";
-            //~ j++;
-            //~ } else if (cnt > k) {
-            //~ if (str[i] == '1') cnt--;
-            //~ i++;
-            //~ if (i == n) break;
-            //~ }
+            sum += (n % 10 ) + 10 ;
+            n  = n / 10 - 1;
         }
     }
 
-    //~ if (ans != 0) ans++;
-    return ans;
+    return sum + n;
 }
-
 int main () {
-    //~ __FastIO;
-    int k;
-    string str;
-    cin >> k >> str;
-    cout << twoPointer (k, str) << "\n";
+    __FastIO;
+    ll n;
+    cin >> n;
+    cout << digitSum (n)  << "\n";
     return 0;
 }

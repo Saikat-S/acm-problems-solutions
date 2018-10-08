@@ -1,9 +1,9 @@
 /***************************************************
- * Problem Name : C. Another Problem on Strings.cpp
- * Problem Link : https://codeforces.com/contest/165/problem/C
+ * Problem Name : C. Vasya and Golden Ticket.cpp
+ * Problem Link : https://codeforces.com/contest/1058/problem/C
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-10-01
+ * Verdict      : AC
+ * Date         : 2018-09-23
  * Problem Type : Div 2 - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
@@ -43,7 +43,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 105
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -59,72 +59,43 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-int twoPointer (int k, string str) {
-    int n = (int) str.size();
-    int i = 0, j = 0, cnt = 0, ans = 0;
+int ar[MAX];
 
-    while (1) {
-        //~ debug;
-        if (j == n) {
-            if (str[i] == '1') cnt--;
+int fun (int n) {
+    for (int i = 0; i <= 10000; i++) {
+        int SS = 0;
+        int cnt = 0;
 
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j==n && i " << ans << "\n";
+        for (int j = 0; j < n; j++) {
+            SS += ar[j];
+
+            if (i == SS) {
+                cnt++;
+                SS = 0;
             }
+        }
 
-            i++;
-
-            if (i == n) break;
-
-        } else if (str[j] == '1' && cnt < k ) {
-            cnt++;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j && 1 " << ans << "\n";
-            }
-
-            j++;
-            //~ if (j == n && cnt < k) break;
-
-        } else if (str[j] == '1' && cnt == k ) {
-            if (str[i] == '1') cnt--;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j && i++ " << ans << "\n";
-            }
-
-            i++;
-
-        } else if (str[j] == '0') {
-            if (cnt == k) ans++;
-
-            j++;
-
-        } else {
-            //~ if (cnt == k) {
-            //~ ans++;
-            //~ cout << "cnt == k " << ans << "\n";
-            //~ j++;
-            //~ } else if (cnt > k) {
-            //~ if (str[i] == '1') cnt--;
-            //~ i++;
-            //~ if (i == n) break;
-            //~ }
+        if (SS == 0 && cnt > 1) {
+            return 1;
         }
     }
 
-    //~ if (ans != 0) ans++;
-    return ans;
+    return 0;
 }
-
 int main () {
-    //~ __FastIO;
-    int k;
+    __FastIO;
+    int n;
     string str;
-    cin >> k >> str;
-    cout << twoPointer (k, str) << "\n";
+    cin >> n;
+    cin >> str;
+
+    for (int i = 0; i < n; i++) {
+        int x = str[i] - '0';
+        ar[i] = x;
+    }
+
+    if (fun (n) ) cout << "YES\n";
+    else cout << "NO\n";
+
     return 0;
 }

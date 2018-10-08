@@ -45,37 +45,42 @@ std::string NumberToString ( T Number ) {
     ss << Number;
     return ss.str();
 }
-ll gcd(ll a, ll b) {
+ll gcd (ll a, ll b) {
     if (a % b == 0) return b;
-    return gcd(b, a % b);
+
+    return gcd (b, a % b);
 }
-ll lcm(ll a, ll b) {
-    return a * b / gcd(a, b);
+ll lcm (ll a, ll b) {
+    return a * b / gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    //~ freopen("input.txt", "r", stdin);
-    //~ freopen("output.txt", "w", stdout);
     ll tc, n, M;
-    scanf("%lld", &tc);
+    scanf ("%lld", &tc);
+
     for (ll t = 1; t <= tc; t++) {
-        scanf("%lld %lld", &n, &M);
+        scanf ("%lld %lld", &n, &M);
+
         for (ll q = 1; q <= n; q++) {
             ll x, y, a, b;
-            scanf("%lld %lld %lld %lld", &x, &y, &a, &b);
+            scanf ("%lld %lld %lld %lld", &x, &y, &a, &b);
             ll xx = x + a, yy = y + b;
-            //~ printf("%lld %lld\n", xx, yy);
-            if (x == a && y == b) printf("0\n");
-            else if ((xx % 2 == 0 && yy % 2 == 0) || (xx % 2 == 1 && yy % 2 == 1)) {
-                if (( x == y && a == b) || ((a != b) && ((x + y) == (a + b)))) printf("1\n");
-                else if((xx%2 == 1 && yy%2 == 1 && (abs(x-a) == abs(y-b))) || (xx%2 == 0 && yy%2 == 0 && (abs(x-a) == abs(y-b)))) printf("1\n");
-                else printf("2\n");
+
+            if (x == a && y == b) printf ("0\n");
+            else if ( (xx % 2 == 0 && yy % 2 == 0) || (xx % 2 == 1 && yy % 2 == 1) ) {
+                if ( ( x == y && a == b) || ( (a != b)
+                                              && ( (x + y) == (a + b) ) ) ) printf ("1\n");
+                else if ( (xx % 2 == 1 && yy % 2 == 1 && (abs (x - a) == abs (y - b) ) )
+                          || (xx % 2 == 0 && yy % 2 == 0
+                              && (abs (x - a) == abs (y - b) ) ) ) printf ("1\n");
+                else printf ("2\n");
+
             } else {
-                printf("no move\n");
+                printf ("no move\n");
             }
         }
-        //~ if (t != tc) nl;
     }
+
     return 0;
 }
 

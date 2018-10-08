@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : C. Another Problem on Strings.cpp
- * Problem Link : https://codeforces.com/contest/165/problem/C
+ * Problem Name : C. Permutation Game.cpp
+ * Problem Link : https://codeforces.com/contest/1033/problem/C
  * OJ           : Codeforces
  * Verdict      : Trying
- * Date         : 2018-10-01
- * Problem Type : Div 2 - C
+ * Date         : 2018-10-08
+ * Problem Type : Div 1, 2 - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -59,72 +59,75 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-int twoPointer (int k, string str) {
-    int n = (int) str.size();
-    int i = 0, j = 0, cnt = 0, ans = 0;
-
-    while (1) {
-        //~ debug;
-        if (j == n) {
-            if (str[i] == '1') cnt--;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j==n && i " << ans << "\n";
-            }
-
-            i++;
-
-            if (i == n) break;
-
-        } else if (str[j] == '1' && cnt < k ) {
-            cnt++;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j && 1 " << ans << "\n";
-            }
-
-            j++;
-            //~ if (j == n && cnt < k) break;
-
-        } else if (str[j] == '1' && cnt == k ) {
-            if (str[i] == '1') cnt--;
-
-            if (cnt == k) {
-                ans++;
-                //~ cout << "j && i++ " << ans << "\n";
-            }
-
-            i++;
-
-        } else if (str[j] == '0') {
-            if (cnt == k) ans++;
-
-            j++;
-
-        } else {
-            //~ if (cnt == k) {
-            //~ ans++;
-            //~ cout << "cnt == k " << ans << "\n";
-            //~ j++;
-            //~ } else if (cnt > k) {
-            //~ if (str[i] == '1') cnt--;
-            //~ i++;
-            //~ if (i == n) break;
-            //~ }
+int fun (int ar[], int n, int val, int id) {
+    int pos = id + val;
+    int mx = 0, ans = 0;
+    while ( pos <= n) {
+		//~ debug;
+        if (ar[pos] > val) {
+			if(ar[pos] > mx){
+				mx = ar[pos];
+				ans = pos;
+			}
         }
+
+        pos += val;
     }
 
-    //~ if (ans != 0) ans++;
+    pos = (id - val);
+
+    while (pos >= 1) {
+        if (ar[pos] > val) {
+            if(ar[pos] > mx){
+				mx = ar[pos];
+				ans = pos;
+			}
+        }
+
+        pos = (pos - val);
+    }
+
     return ans;
 }
-
 int main () {
     //~ __FastIO;
-    int k;
-    string str;
-    cin >> k >> str;
-    cout << twoPointer (k, str) << "\n";
+    int n;
+    cin >> n;
+    int ar[n + 3];
+
+    for (int i = 1; i <= n; i++) {
+        cin >> ar[i];
+    }
+
+    string str = "";
+
+    for (int i = 1; i <= n; i++) {
+        int flag = 0;
+        int val = ar[i];
+        int id = i;
+
+        while (1) {
+            int x = fun (ar, n, val, id);
+            cout << x << " --\n";
+            if ( x == 0) {
+                if (flag%2 == 0) {
+                    str += "B";
+
+                } else {
+                    str += "A";
+                }
+
+                break;
+
+            } else {
+                val = ar[x];
+                id = x;
+                flag++;
+            }
+        }
+        //~ break;
+    }
+    cout << str << "\n";
+
     return 0;
 }
