@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : C. Permutation Game.cpp
- * Problem Link : https://codeforces.com/contest/1033/problem/C
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-10-08
- * Problem Type : Div 1, 2 - C
+ * Problem Name : Gravel.cpp
+ * Problem Link : https://www.codechef.com/problems/SPREAD
+ * OJ           : Codechef
+ * Verdict      : AC
+ * Date         : 2018-10-10
+ * Problem Type : Data Structure (BIT)
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -43,7 +43,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 1000005
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -59,75 +59,56 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-int fun (int ar[], int n, int val, int id) {
-    int pos = id + val;
-    int mx = 0, ans = 0;
-    while ( pos <= n) {
-		//~ debug;
-        if (ar[pos] > val) {
-			if(ar[pos] > mx){
-				mx = ar[pos];
-				ans = pos;
-			}
-        }
+ll tree[MAX];
+int getNext (int id) {
+    return id + (id & -id);
+}
+int getPar (int id) {
+    return id - (id & -id);
+}
+void update (int id, int n, ll val) {
+    while (id <= n) {
+        tree[id] += val;
+        id = getNext (id);
+    }
+}
+ll query (int id) {
+    ll sum = 0;
 
-        pos += val;
+    while (id > 0) {
+        sum += tree[id];
+        id = getPar (id);
     }
 
-    pos = (id - val);
-
-    while (pos >= 1) {
-        if (ar[pos] > val) {
-            if(ar[pos] > mx){
-				mx = ar[pos];
-				ans = pos;
-			}
-        }
-
-        pos = (pos - val);
+    return sum;
+}
+void build (int n, int c) {
+    for (int i = 1; i <= n; i++) {
+        update (i, n, c);
     }
-
-    return ans;
 }
 int main () {
-    //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    __FastIO;
+    int n, m, c;
+    cin >> n >> m >> c;
 
-    for (int i = 1; i <= n; i++) {
-        cin >> ar[i];
-    }
+    while (m--) {
+        string str;
+        cin >> str;
 
-    string str = "";
+        if (str[0] == 'S') {
+            int u, v;
+            ll k;
+            cin >> u >> v >> k;
+            update (u, n, k);
+            update (v+1, n, -k);
 
-    for (int i = 1; i <= n; i++) {
-        int flag = 0;
-        int val = ar[i];
-        int id = i;
-
-        while (1) {
-            int x = fun (ar, n, val, id);
-            //~ cout << x << " --\n";
-            if ( x == 0) {
-                if (flag%2 == 0) {
-                    str += "B";
-
-                } else {
-                    str += "A";
-                }
-
-                break;
-
-            } else {
-                val = ar[x];
-                id = x;
-                flag++;
-            }
+        } else {
+            int id;
+            cin >> id;
+            cout << query (id) + c << "\n";
         }
-        //~ break;
     }
-    cout << str << "\n";
 
     return 0;
 }

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : C. Permutation Game.cpp
- * Problem Link : https://codeforces.com/contest/1033/problem/C
+ * Problem Name : A. Diverse Substring.cpp
+ * Problem Link : https://codeforces.com/contest/1073/problem/A
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-10-08
- * Problem Type : Div 1, 2 - C
+ * Verdict      : AC
+ * Date         : 2018-10-26
+ * Problem Type : Educational Round - A
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -59,75 +59,32 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
-int fun (int ar[], int n, int val, int id) {
-    int pos = id + val;
-    int mx = 0, ans = 0;
-    while ( pos <= n) {
-		//~ debug;
-        if (ar[pos] > val) {
-			if(ar[pos] > mx){
-				mx = ar[pos];
-				ans = pos;
-			}
-        }
-
-        pos += val;
-    }
-
-    pos = (id - val);
-
-    while (pos >= 1) {
-        if (ar[pos] > val) {
-            if(ar[pos] > mx){
-				mx = ar[pos];
-				ans = pos;
-			}
-        }
-
-        pos = (pos - val);
-    }
-
-    return ans;
-}
 int main () {
-    //~ __FastIO;
+    __FastIO;
     int n;
     cin >> n;
-    int ar[n + 3];
+    string str;
+    cin >> str;
+    int cnt[200];
 
-    for (int i = 1; i <= n; i++) {
-        cin >> ar[i];
-    }
+    for (int i = 0; i < n; i++) {
+        string ss;
+        int mx = 0;
+        SET (cnt, 0);
 
-    string str = "";
+        for (int j = i; j < n; j++) {
+            ss += str[j];
+            cnt[str[j]]++;
+            mx = max (mx, cnt[str[j]]);
 
-    for (int i = 1; i <= n; i++) {
-        int flag = 0;
-        int val = ar[i];
-        int id = i;
-
-        while (1) {
-            int x = fun (ar, n, val, id);
-            //~ cout << x << " --\n";
-            if ( x == 0) {
-                if (flag%2 == 0) {
-                    str += "B";
-
-                } else {
-                    str += "A";
-                }
-
-                break;
-
-            } else {
-                val = ar[x];
-                id = x;
-                flag++;
+            if (mx <= (int) ss.size() / 2) {
+                cout << "YES\n";
+                cout << ss << "\n";
+                return 0;
             }
         }
-        //~ break;
     }
-    cout << str << "\n";
 
+    cout << "NO\n";
     return 0;
 }

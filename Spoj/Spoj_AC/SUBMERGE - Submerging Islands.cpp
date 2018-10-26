@@ -1,10 +1,10 @@
 /***************************************************
  * Problem Name : SUBMERGE - Submerging Islands.cpp
  * Problem Link : https://www.spoj.com/problems/SUBMERGE/
- * OJ           : Codeforces
+ * OJ           : Spoj
  * Verdict      : AC
- * Date         : 2018-08-11
- * Problem Type : Graph ( AP )
+ * Date         : 2018-10-25
+ * Problem Type : Graph (AP)
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -60,63 +60,71 @@ ll lcm (ll a, ll b) {
 }
 /************************************ Code Start Here ******************************************************/
 vector<int>adj[MAX];
-int n, m, t, cnt;
-int dis[MAX], low[MAX];
+int n, m, t;
 bool vis[MAX], chk[MAX];
+int dis[MAX], low[MAX], cnt;
 void dfs (int u, int p) {
     vis[u] = true;
     dis[u] = low[u] = t++;
-    int child = 0;
+    int child  = 0;
 
     for (int i = 0; i < (int) adj[u].size(); i++) {
         int v = adj[u][i];
 
         if (v == p) continue;
 
-        if (vis[v]) {
+        if (vis[v] == true) {
             low[u] = min (low[u], dis[v]);
 
         } else {
             dfs (v, u);
             low[u] = min (low[u], low[v]);
 
-            if (dis[u] <= low[v] && p != -1 && !chk[u]) {
+            if (dis[u] <= low[v] && p != -1 && chk[u] == 0) {
                 cnt++;
-                chk[u] = true;
+                chk[u] = 1;
             }
 
             child++;
         }
     }
 
-    if (p == -1 &&  child > 1 && !chk[u]) cnt++;
+    if (p == -1 && child > 1 && chk[u] == 0) {
+        cnt++;
+        chk[u] = 1;
+    }
 }
 void find_articulation_point() {
-    cnt = t = 0;
+    t = 0, cnt = 0;
     SET (vis, false);
     SET (chk, false);
     SET (dis, -1);
     SET (low, -1);
 
-    for (int i = 1; i <= n; i++) if (!vis[i]) dfs (i, -1);
-
-    for (int i = 0; i < MAX; i++) adj[i].clear();
+    for (int i = 1; i <= n; i++) {
+        if (!vis[i]) dfs (i, -1);
+    }
 }
+
 int main () {
     __FastIO;
 
     while (cin >> n >> m) {
-        if (n == m &&  m  == 0) break;
+        if (n == 0 && m == 0) break;
 
-        for (int i = 0; i < m ; i++) {
-            int a, b;
-            cin >> a >> b;
-            adj[a].pb (b);
-            adj[b].pb (a);
+        for (int i = 0; i < m; i++) {
+            int u, v;
+            cin >> u >> v;
+            adj[u].pb (v);
+            adj[v].pb (u);
         }
 
         find_articulation_point();
         cout << cnt << "\n";
+
+        for (int i = 0; i < MAX; i++) {
+            adj[i].clear();
+        }
     }
 
     return 0;
