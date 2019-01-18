@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem Type : Div 1,2 - B
+ * Problem Name : F.Nim_Cheater.cpp
+ * Problem Link : https://codeforces.com/gym/101801
+ * OJ           : Codeforces/gym
+ * Verdict      : AC
+ * Date         : 2019-01-09
+ * Problem Type : AdHoc
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -61,20 +61,26 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    int tc, m;
+    cin >> tc;
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (tc--) {
+        cin >> m;
+        int ar[m + 3];
+
+        for (int i = 0; i < m; i++) {
+            cin >> ar[i];
+        }
+
+        ll Xor = ar[0];
+
+        for (int i = 1; i < m; i++) {
+            Xor ^= ar[i];
+        }
+
+        if (Xor == 0) cout << 1 << "\n";
+        else cout << 0 << "\n";
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }
