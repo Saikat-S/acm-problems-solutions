@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
+ * Problem Name : C. Ayoub and Lost Array.cpp
+ * Problem Link :
  * OJ           : Codeforces
  * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Date         : 2019-01-20
+ * Problem Type :
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -59,22 +61,40 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+int n, l, r;
+int ar[MAX];
+int need;
+int fun (int i, int cnt, int sum) {
+    if (cnt == n) {
+        if (sum == need) return 1;
+        else return 0;
+    }
+
+    if (i > r) {
+        i = l;
+    }
+
+    int a = 0, b = 0;
+    if(i + sum <=need){
+		a = fun(i, cnt+1, sum+i);
+	}
+    b = fun (i+1, cnt, sum);
+    return a + b;
+}
 int main () {
     //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
-
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
-    }
-
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
+    //~ int n, l, r;
+    cin >> n >> l >> r;
+    int a = l * n;
+    int b = r * n;
+    int cnt =0;
+    for(int i = a; i<=b; i++){
+		if (i%3 == 0){
+			need = i;
+			cnt += fun(l,0,0);
+		}
+	}
+    
+    cout << cnt << "\n";
     return 0;
 }

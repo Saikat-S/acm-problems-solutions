@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Problem Name : 11743 Credit Check.cpp
+ * Problem Link : https://uva.onlinejudge.org/external/117/11743.pdf
+ * OJ           : Uva
+ * Verdict      : AC
+ * Date         : 2018-10-19
+ * Problem Type : Implementation
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -59,22 +59,48 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+int digitSum (int n) {
+    int sum = 0;
+
+    while (n > 0) {
+        sum += (n % 10);
+        n /= 10;
+    }
+
+    return sum;
+}
 int main () {
-    //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    __FastIO;
+    int tc;
+    cin >> tc;
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (tc--) {
+        string a, b, c, d;
+        cin >> a >> b >> c >> d;
+        int sum = 0;
+        sum += (digitSum ( (a[0] - '0') * 2) );
+        sum += (digitSum ( (a[2] - '0') * 2) );
+        sum += (digitSum ( (b[0] - '0') * 2) );
+        sum += (digitSum ( (b[2] - '0') * 2) );
+        sum += (digitSum ( (c[0] - '0') * 2) );
+        sum += (digitSum ( (c[2] - '0') * 2) );
+        sum += (digitSum ( (d[0] - '0') * 2) );
+        sum += (digitSum ( (d[2] - '0') * 2) );
+        //~ cout << sum << " -\n";
+        //~ single digit sum
+        sum += (digitSum (a[1] - '0') );
+        sum += (digitSum (a[3] - '0') );
+        sum += (digitSum (b[1] - '0') );
+        sum += (digitSum (b[3] - '0') );
+        sum += (digitSum (c[1] - '0') );
+        sum += (digitSum (c[3] - '0') );
+        sum += (digitSum (d[1] - '0') );
+        sum += (digitSum (d[3] - '0') );
+
+        //~ cout << sum << " --\n";
+        if (sum % 10 == 0) cout << "Valid\n";
+        else cout << "Invalid\n";
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }

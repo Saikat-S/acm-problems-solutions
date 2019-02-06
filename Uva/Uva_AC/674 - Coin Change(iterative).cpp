@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Problem Name : 674 - Coin Change(iterative).cpp
+ * Problem Link : https://uva.onlinejudge.org/external/6/674.pdf
+ * OJ           : Uva
+ * Verdict      : AC
+ * Date         : 2019-02-06
+ * Problem Type : dp(coin change)
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -43,7 +43,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 7590
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -59,22 +59,40 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+int ar[5][MAX];
+int coin[] = {1, 5, 10, 25, 50};
+int coin_change (int n) {
+    for (int i = 0; i < 5; i++) {
+        ar[i][0] = 1;
+    }
+
+    for (int i = 0; i <= n; i++) {
+        ar[0][i] = 1;
+    }
+
+    for (int i = 1; i < 5; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (coin[i] > j) {
+                ar[i][j] = ar[i - 1][j];
+
+            } else {
+                ar[i][j] = (ar[i][j - coin[i]]) + ar[i - 1][j];
+            }
+        }
+    }
+
+    return ar[4] [n];
+}
+
 int main () {
-    //~ __FastIO;
+    __FastIO;
     int n;
-    cin >> n;
-    int ar[n + 3];
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (cin >> n) {
+        if (n == 0) cout << 1 << "\n";
+        else cout << coin_change (n) << "\n";
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }
+

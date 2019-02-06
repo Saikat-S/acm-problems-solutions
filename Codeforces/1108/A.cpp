@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
+ * Problem Name : A.cpp
+ * Problem Link :
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Verdict      : AC
+ * Date         : 2019-01-23
+ * Problem Type :
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -61,20 +63,28 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     //~ __FastIO;
-    int n;
+    int n, l1, r1, l2, r2;
     cin >> n;
-    int ar[n + 3];
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (n--) {
+        cin >> l1 >> r1 >> l2 >> r2;
+
+        if (l1 != l2) {
+            cout << l1 << " " << l2 << "\n";
+
+        } else if (l1 != r2) {
+            cout << l1 << " " << r2 << "\n";
+
+        } else if (r1 != l2) {
+            cout << r1 << " " << l2 << "\n";
+
+        } else if (r1 != r2) {
+            cout << r1 << " " << r2 << "\n";
+
+        } else {
+            cout << l1 << " " << l2 + 1 << "\n";
+        }
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }

@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Problem Name : The Maximum Subarray.cpp
+ * Problem Link : https://www.hackerrank.com/challenges/maxsubarray/problem
+ * OJ           : HackerRank
+ * Verdict      : AC
+ * Date         : 2019-01-21
+ * Problem Type : kadane
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -59,22 +61,49 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+int ar[MAX], n;
+int kadane () {
+    int mx, sum;
+    mx = INT_MIN, sum = 0;
+
+    for (int i = 0; i < n; i++) {
+        sum = sum + ar[i];
+
+        if (sum > mx) {
+            mx = sum;
+        }
+
+        if (sum < 0) {
+            sum = 0;
+        }
+    }
+
+    return mx;
+}
 int main () {
     //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    int tc;
+    cin >> tc;
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (tc--) {
+        cin >> n;
+        int sum = 0;
+        int mx = -10005;
+
+        for (int i = 0; i < n; i++) {
+            cin >> ar[i];
+
+            if (ar[i] > 0) sum += ar[i];
+
+            mx = max (mx, ar[i]);
+        }
+
+        if (sum == 0) {
+            sum = mx;
+        }
+
+        cout << kadane() << " " << sum << "\n";
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }

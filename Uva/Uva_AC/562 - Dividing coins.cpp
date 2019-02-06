@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Problem Name : 562 - Dividing coins.cpp
+ * Problem Link : https://uva.onlinejudge.org/external/5/562.pdf
+ * OJ           : Uva
+ * Verdict      : AC
+ * Date         : 2019-02-06
+ * Problem Type : dp
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -43,7 +43,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 505
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -59,22 +59,45 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+int ar[MAX];
+int n, need;
+int dp[103][25003];
+
+int coin_change (int i, int make) {
+    if (i >= n) {
+        return make;
+    }
+
+    if (dp[i][make] != -1) return dp[i][make];
+
+    int ret1 = 0, ret2 = 0;
+
+    if ( (make + ar[i] <= need) ) {
+        ret1 = coin_change (i + 1, make + ar[i]);
+    }
+
+    ret2 = coin_change (i + 1, make);
+    return dp[i][make] = max (ret1, ret2);
+}
 int main () {
-    //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    __FastIO;
+    int tc;
+    cin >> tc;
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (tc--) {
+        int sum = 0;
+        cin >> n;
+
+        for (int i = 0; i < n; i++) {
+            cin >> ar[i];
+            sum += ar[i];
+        }
+
+        need = sum / 2;
+        SET (dp, -1);
+        int ans = coin_change (0, 0);
+        cout << (sum - (2 * ans) ) << "\n";
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }

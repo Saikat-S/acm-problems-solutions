@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
+ * Problem Name : B.cpp
+ * Problem Link :
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Verdict      : AC
+ * Date         : 2019-01-23
+ * Problem Type :
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -43,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 10005
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -64,17 +66,51 @@ int main () {
     int n;
     cin >> n;
     int ar[n + 3];
+    int cnt[MAX];
+    SET (cnt, 0);
+    int mx1 = 0;
 
-    for (int  i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         cin >> ar[i];
+        cnt[ar[i]]++;
+        mx1 = max (mx1, ar[i]);
     }
 
-    int Xor = ar[0];
+    //~ sort (ar, ar + n);
+    //~ int mx2 = 0;
+    //~ for (int i = n - 1; i >= 0; i--) {
+    //~ int tmp =
+    //~ for (int j = n - 1; j >= 0; j--) {
+    //~ }
+    //~ }
 
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
+    if (cnt[mx1] == 2) {
+        cout << mx1 << " " << mx1 << "\n";
+        return 0;
     }
 
-    cout << Xor << "\n";
+    int mx2 = 0;
+    int mx3 = 0;
+
+    for (int i = 0; i < n; i++) {
+        int x = ar[i];
+
+        if (mx1 % x != 0) {
+            mx3 = max (mx3, x);
+
+        } else {
+            if (cnt[x] == 2) {
+                mx2 = max (mx2, x);
+            }
+        }
+    }
+
+    if (mx3 == 0) {
+        cout << mx1 << " " << mx2 << "\n";
+
+    } else {
+        cout << mx1 << " " << mx3 << "\n";
+    }
+
     return 0;
 }

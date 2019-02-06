@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
+ * Problem Name : C. Grid game.cpp
+ * Problem Link :
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Verdict      : AC
+ * Date         : 2019-01-22
+ * Problem Type :
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -59,22 +61,48 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+vector<pii>vec;
+void check (int id, int zero, int one) {
+    if (id == 0) {
+        if (zero % 2 == 1) {
+            vec.pb (pii (1, 1) );
+
+        } else {
+            vec.pb (pii (3, 1) );
+        }
+
+    } else {
+        if (one % 4 == 1) {
+            vec.pb (pii (1, 2) );
+
+        } else if (one % 4 == 2) {
+            vec.pb (pii (2, 2) );
+
+        } else if (one % 4 == 3) {
+            vec.pb (pii (3, 2) );
+
+        } else {
+            vec.pb (pii (4, 2) );
+        }
+    }
+}
 int main () {
-    //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    __FastIO;
+    string str;
+    cin >> str;
+    int n = (int) str.size();
+    int zero = 0, one = 0;
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    for (int i = 0; i < n; i++) {
+        if (str[i] == '0') zero++;
+        else one++;
+
+        check (str[i] - '0', zero, one);
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
+    for (int i = 0; i < (int) vec.size(); i++) {
+        cout << vec[i].first << " " << vec[i].second << "\n";
     }
 
-    cout << Xor << "\n";
     return 0;
 }

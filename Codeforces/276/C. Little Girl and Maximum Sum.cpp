@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
+ * Problem Name : C. Little Girl and Maximum Sum.cpp
+ * Problem Link : https://codeforces.com/contest/276/problem/C
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Verdict      : AC
+ * Date         : 2019-01-27
+ * Problem Type : Div 2 - C
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -43,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 200005
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -60,21 +62,43 @@ ll lcm (ll a, ll b) {
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    __FastIO;
+    int n, q;
+    cin >> n >> q;
+    int ar[MAX];
 
-    for (int  i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         cin >> ar[i];
     }
 
-    int Xor = ar[0];
+    sort (ar, ar + n);
+    int sum[MAX];
+    SET (sum, 0);
 
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
+    while (q--) {
+        int l, r;
+        cin >> l >> r;
+        l--;
+        sum[l]++;
+
+        if (r < n) sum[r]--;
     }
 
-    cout << Xor << "\n";
+    ll total = 0;
+    int br[MAX];
+
+    for (int i = 0; i < n; i++) {
+        total += sum[i];
+        br[i] = total;
+    }
+
+    sort (br, br + n);
+    total = 0;
+
+    for (int i = 0; i < n; i++) {
+        total += (ar[i] * 1LL * br[i]);
+    }
+
+    cout << total << "\n";
     return 0;
 }

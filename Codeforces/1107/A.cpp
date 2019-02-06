@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
+ * Problem Name : A.cpp
+ * Problem Link :
  * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Verdict      : AC
+ * Date         : 2019-01-26
+ * Problem Type : Educational Round - A
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -61,20 +63,57 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    int q;
+    cin >> q;
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (q--) {
+        int n;
+        string str;
+        cin >> n >> str;
+
+        if (n == 2) {
+            int a = str[0] - '0';
+            int b = str[1] - '0';
+
+            if (b > a) {
+                cout << "YES\n";
+                cout << 2 << "\n";
+                cout << a << " " << b << "\n";
+
+            } else {
+                cout << "NO\n";
+            }
+
+        } else {
+            int a  = str[0] - '0';
+            int num = 0;
+            int flag = 0;
+
+            for (int i = 1; i < n; i++) {
+                num = (num * 10) + (str[i] - '0');
+
+                if (num > a) {
+                    flag = 1;
+                    break;
+                }
+            }
+
+            if (flag == 1) {
+                cout << "YES\n";
+                cout << 2 << "\n";
+                cout << str[0] << " ";
+
+                for (int i = 1; i < n; i++) {
+                    cout << str[i];
+                }
+
+                nl;
+
+            } else {
+                cout << "NO\n";
+            }
+        }
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }

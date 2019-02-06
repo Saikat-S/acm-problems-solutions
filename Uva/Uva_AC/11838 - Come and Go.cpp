@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Problem Name : 11838 - Come and Go.cpp
+ * Problem Link : https://uva.onlinejudge.org/external/118/11838.pdf
+ * OJ           : Uva
+ * Verdict      : AC
+ * Date         : 2018-10-25
+ * Problem Type : Graph (dfs)
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -43,7 +43,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 2005
 #define INF 1000000000
 using namespace std;
 typedef long long ll;
@@ -59,22 +59,61 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+vector<int>adj[MAX];
+bool vis[MAX];
+int cnt;
+void dfs (int u) {
+    vis[u] = true;
+
+    for (int i = 0; i < (int) adj[u].size(); i++) {
+        int v = adj[u][i];
+
+        if (!vis[v]) {
+            cnt++;
+            dfs (v);
+        }
+    }
+}
 int main () {
-    //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
+    __FastIO;
+    int n, m;
 
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
+    while (cin >> n >> m) {
+        if (n == 0 && m == 0) break;
+
+        for (int i = 0; i < m; i++) {
+            int u, v, p;
+            cin >> u >> v >> p;
+
+            if (p == 1) {
+                adj[u].pb (v);
+
+            } else {
+                adj[u].pb (v);
+                adj[v].pb (u);
+            }
+        }
+
+        bool flag = false;
+
+        for (int i = 1; i <= n; i++) {
+            SET (vis, false);
+            cnt = 1;
+            dfs (i);
+
+            if (cnt != n) {
+                flag = true;
+                break;
+            }
+        }
+
+        if (flag) cout << "0\n";
+        else cout << "1\n";
+
+        for (int i = 0; i < MAX; i++) {
+            adj[i].clear();
+        }
     }
 
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
     return 0;
 }

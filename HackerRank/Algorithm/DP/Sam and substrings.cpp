@@ -1,11 +1,11 @@
 /***************************************************
- * Problem name : B.Sherlock_and_his_girlfriend.cpp
- * Problem Link : https://codeforces.com/contest/776/problem/B
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2018-12-07
- * Problem type : Div 1,2 - B
- * Author name  : Saikat Sharma
+ * Problem Name : Sam and substrings.cpp
+ * Problem Link : https://www.hackerrank.com/challenges/sam-and-substrings/problem
+ * OJ           : HackerRank
+ * Verdict      : AC
+ * Date         : 2019-01-21
+ * Problem Type : dp
+ * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
 #include<iostream>
@@ -24,6 +24,8 @@
 #include<map>
 #include<set>
 #define __FastIO ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define FileRead freopen ("/home/saikat/Desktop/logN/input.txt", "r", stdin);
+#define FileWrite freopen ("/home/saikat/Desktop/logN/output.txt", "w", stdout);
 #define SET(a,v) memset(a,v,sizeof(a))
 #define pii pair<int,int>
 #define pll pair <ll, ll>
@@ -45,6 +47,7 @@
 #define mk make_pair
 #define MAX 100005
 #define INF 1000000000
+#define MOD 1000000007
 using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
@@ -59,22 +62,21 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+ll subSum (string str, int n) {
+    ll sum = 0, f = 1;
+
+    for (int i = n - 1; i >= 0; i--) {
+        sum = (sum + ( (str[i] - '0') * (i + 1) * f) ) % MOD;
+        f = (f * 10 + 1) % MOD;
+    }
+
+    return sum;
+}
 int main () {
-    //~ __FastIO;
-    int n;
-    cin >> n;
-    int ar[n + 3];
-
-    for (int  i = 0; i < n; i++) {
-        cin >> ar[i];
-    }
-
-    int Xor = ar[0];
-
-    for (int i = 1; i < n; i++) {
-        Xor = Xor ^ ar[i];
-    }
-
-    cout << Xor << "\n";
+    __FastIO;
+    string str;
+    cin >> str;
+    int sz = (int) str.size();
+    cout << subSum (str, sz) << "\n";
     return 0;
 }
