@@ -71,7 +71,7 @@ void build (int nod, int low, int high) {
         int right = nod * 2 + 1;
         build (left, low, mid);
         build (right, mid + 1, high);
-
+		
         if (ar[tree[left]] <= ar[tree[right]])
             tree[nod] = tree[left];
         else tree[nod] = tree[right];
