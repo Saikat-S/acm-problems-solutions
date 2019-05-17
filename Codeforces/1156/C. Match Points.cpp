@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : C. Match Points.cpp
+ * Problem Link : https://codeforces.com/contest/1156/problem/C
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-01
+ * Problem Type : Edu - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 200005
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -64,22 +64,42 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n, z;
+    vector<int>vec;
+    cin >> n >> z;
+    multiset<int>st;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        int x ;
+        cin >> x;
+        vec.pb (x);
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    sort (all (vec) );
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = (n / 2); i < n; i++) {
+        st.insert (vec[i]);
     }
 
-    cout << x << "\n";
+    int cnt = 0;
+
+    for (int i = 0; i < n / 2; i++) {
+        int x = vec[i];
+        int val = x + z;
+
+        if ( (int) st.size() == 0) break;
+
+        auto it = st.lower_bound (val);
+
+        if (it != st.end() ) {
+            cnt++;
+            st.erase (it);
+
+        } else {
+            break;
+        }
+    }
+
+    cout << cnt << "\n";
     return 0;
 }
-	

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : B. Long Number.cpp
+ * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-26
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 200005
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -64,22 +64,38 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    int ar[15];
+    string str;
+    cin >> n;
+    cin >> str;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= 9; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    int f = 0;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0 ; i < n; i++) {
+        int x = str[i] - '0';
+
+        if (ar[x] > x && f != 2) {
+            cout << ar[x];
+            f = 1;
+
+        }else if(ar[x] == x && f != 2 && f == 1){
+			cout << ar[x];
+			f = 1;
+		} 
+        else {
+            cout << x;
+
+            if (f == 1) {
+                f = 2;
+            }
+        }
     }
 
-    cout << x << "\n";
+    nl;
     return 0;
 }
-	

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : BB.cpp
+ * Problem Link : https://codeforces.com/contest/1163/problem/B/C
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-09
+ * Problem Type : Div 2 - B,C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -64,22 +64,77 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    int ar[MAX];
+    cin >> n;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= n; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    int uni = 0, ans = 0;
+    int mp[MAX];
+    SET (mp, 0);
+    multiset<int>st;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= n; i++) {
+        int x = ar[i];
+        int pre = mp[x];
+
+        if (pre != 0) {
+            auto it = st.lower_bound (pre);
+
+            if (it != st.end() ) {
+                st.erase (it);
+            }
+        }
+
+        if (mp[x] == 0) {
+            auto it = st.begin();
+
+            if (it != st.end() ) {
+                int cnt = *it;
+                int tmp = cnt * uni;
+
+                if (tmp == (i - 1) ) {
+                    ans = max (ans, i);
+                }
+            }
+
+            mp[x]++;
+            uni++;
+
+        } else {
+            mp[x]++;
+        }
+
+        st.insert (mp[x]);
+        auto it = st.begin();
+        int cnt = *it;
+        int tmp = (cnt * uni);
+
+        if ( (i - tmp) == 1) {
+            ans = max (ans, i);
+        }
+
+        if (cnt == 1) {
+            it++;
+
+            if (it != st.end() ) {
+                cnt = *it;
+                int tmp = (cnt * (uni - 1) );
+
+                if (tmp == (i - 1) ) {
+                    ans = max (ans, i);
+                }
+            }
+        }
     }
 
-    cout << x << "\n";
+    if ( (int) st.size() == 1) {
+        ans = n;
+    }
+
+    cout << ans << "\n";
     return 0;
 }
-	

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : B. LCM.cpp
+ * Problem Link : https://codeforces.com/contest/1068/problem/B
  * OJ           : Codeforces
  * Verdict      : AC
  * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Problem Type : Div 2 - B (basic number theory)
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -62,24 +62,24 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+int div (ll n) {
+    int sq = sqrt (n);
+    int cnt = 0;
+
+    for (int i = 1; i <= sq; i++) {
+        if (n % i == 0) {
+            if ( (n / i) == i) cnt++;
+            else cnt += 2;
+        }
+    }
+
+    return cnt;
+}
+
 int main () {
-    __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
-
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    cout << x << "\n";
+    //~ __FastIO;
+    ll b;
+    cin >> b;
+    cout << div (b) << "\n";
     return 0;
 }
-	

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : A. Got Any Grapes?.cpp
+ * Problem Link : https://codeforces.com/contest/1114/problem/A
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-07
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -64,22 +64,29 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int a, bb, c, g, p, b;
+    cin >> a >> bb >> c;
+    cin >> g >> p >> b;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
+    if (a > g) {
+        cout << "No\n";
         exit (0);
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    g-=a;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
+    if (bb > (g + p)) {
+        cout << "No\n";
+        exit (0);
+    }
+    
+    g = (g+p)-bb;
+
+    if (c > (g + b)) {
+        cout << "No\n";
         exit (0);
     }
 
-    cout << x << "\n";
+    cout << "Yes\n";
     return 0;
 }
-	

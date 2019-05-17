@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : A.cpp
+ * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-26
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -62,24 +62,41 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+int fun (int x) {
+    int num = x + 1;
+
+    while (1) {
+        if (num % 10 == 0) {
+            num /= 10;
+
+        } else {
+            break;
+        }
+    }
+
+    return num;
+}
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    cin >> n;
+    set<int>st;
+    int x = n;
+    map<int, int>mp;
+    st.insert (x);
+    mp[x] = 1;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    while (true) {
+        x = fun (x);
+        st.insert (x);
+        if (mp[x] == 1) {
+            break;
+
+        } else {
+            mp[x] = 1;
+        }
     }
 
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    cout << x << "\n";
+    cout << (int) st.size() << "\n";
     return 0;
 }
-	

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : D. Almost All Divisors.cpp
+ * Problem Link : https://codeforces.com/contest/1165/problem/D
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-16
+ * Problem Type : Div 3 - D
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 305
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -62,24 +62,63 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+vector<int>ar, di;
+int n;
+void NOD (ll num) {
+    int sq = (int) sqrt (num);
+
+    for (int i = 1; i <= sq; i++) {
+        if (num % i == 0) {
+            if (i != (num / i) ) {
+                di.pb (i);
+                di.pb (num / i);
+
+            } else {
+                di.pb (i);
+            }
+        }
+    }
+}
+
+bool fun (ll num) {
+    NOD (num);
+    sort (all (ar) );
+    sort (all (di) );
+
+    for (int i = 0; i < (int) di.size() ; i++) {
+        if (ar[i] != di[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int tc;
+    cin >> tc;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    while (tc--) {
+        cin >> n;
+        int mx = 0;
+        int mn = INF;
+        ar.resize (n);
+
+        for (int i = 0; i < n; i++) {
+            cin >> ar[i];
+            mx = max (mx, ar[i]);
+            mn = min (mn, ar[i]);
+        }
+
+        ll num = (ll) mn * (ll) mx;
+        ar.pb (1);
+        ar.pb (num);
+
+        if (fun (num) ) cout << num << "\n";
+        else cout << -1 << "\n";
+
+        ar.clear(), di.clear();
     }
 
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    cout << x << "\n";
     return 0;
 }
-	

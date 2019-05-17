@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : B. Make Them Equal.cpp
+ * Problem Link : https://codeforces.com/contest/1154/problem/B
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-22
+ * Problem Type : Div 3 - B
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -63,23 +63,43 @@ ll lcm (ll a, ll b) {
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    //~ __FastIO;
+    int n;
+    cin >> n;
+    int ar[n + 3];
+    map<int, int>mp;
+    vector<int>vec;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
+
+        if (mp[ar[i]] == 0) {
+            vec.pb (ar[i]);
+            mp[ar[i]] = 1;
+        }
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    sort (all (vec) );
+    int sz = (int) vec.size();
 
-    if ( (x * m) > n) {
+    if ( sz > 3) {
         cout << -1 << "\n";
-        exit (0);
+
+    } else if (sz == 3) {
+        if ( (vec[1] - vec[0]) != (vec[2] - vec[1]) ) {
+            cout << -1 << '\n';
+
+        } else {
+            cout << (vec[1] - vec[0]) << "\n";
+        }
+
+    } else if (sz == 2) {
+        cout << ( (vec[1] - vec[0]) % 2 == 0  ? (vec[1] - vec[0]) / 2 :
+                  (vec[1] - vec[0]) ) << "\n";
+
+    } else {
+        cout << 0 << "\n";
     }
 
-    cout << x << "\n";
     return 0;
 }
-	

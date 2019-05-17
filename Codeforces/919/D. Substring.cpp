@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : D. Substring.cpp
+ * Problem Link : https://codeforces.com/contest/919/problem/D
  * OJ           : Codeforces
- * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Verdict      : Trying
+ * Date         : 2019-05-13
+ * Problem Type : 
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -58,28 +58,13 @@ std::string NumberToString ( T Number ) {
     ss << Number;
     return ss.str();
 }
-ll lcm (ll a, ll b) {
-    return a * b / __gcd (a, b);
+ll lcm(ll a, ll b) {
+    return a * b / __gcd(a, b);
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
-
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    cout << x << "\n";
+    //~ __FastIO;
+    
     return 0;
 }
-	
+

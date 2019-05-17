@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : C. Enlarge GCD.cpp
+ * Problem Link : https://codeforces.com/contest/1047/problem/C
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-28
+ * Problem Type : Div 2 - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 300005
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -62,24 +62,77 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+map<int, int>d;
+char ar[4005];
+vector<int>prime;
+void seive (int n) {
+    ar[0] = 1, ar[1] = 1;
+
+    for (int i = 4; i < n; i += 2) {
+        ar[i] = 1;
+    }
+
+    int sq = sqrt (n);
+
+    for (int i = 2; i <= sq; i++) {
+        if (ar[i] == 0) {
+            for (int j = i + i; j < n; j += i) {
+                ar[j] = 1;
+            }
+        }
+    }
+
+    prime.pb (2);
+
+    for (int i = 3; i < n; i++) {
+        if (ar[i] == 0) prime.pb (i);
+    }
+}
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    seive (4005);
+    int n;
+    int ar[MAX];
+    cin >> n;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    int gc = ar[0];
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i < n; i++) {
+        gc = __gcd (gc, ar[i]);
     }
 
-    cout << x << "\n";
+    for (int i = 0; i < n; i++) {
+        ar[i] /= gc;
+    }
+
+    for (int i = 0; i < n; i++) {
+        int x = ar[i];
+
+        for (int j = 0; j < (int) prime.size() && (prime[j]*prime[j]) <= x; j++) {
+            if (x % prime[j] == 0) {
+                while (x % prime[j] == 0) {
+                    x /= prime[j];
+                }
+
+                d[prime[j]]++;
+            }
+        }
+
+        if (x > 1) d[x]++;
+    }
+
+    int ans = INF;
+
+    for (auto it : d) {
+        ans = min (ans, n - it.second);
+    }
+
+    if (ans == INF) ans = -1;
+
+    cout << ans << "\n";
     return 0;
 }
-	

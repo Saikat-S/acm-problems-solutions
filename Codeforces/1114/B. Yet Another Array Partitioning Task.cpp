@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : B. Yet Another Array Partitioning Task.cpp
+ * Problem Link : https://codeforces.com/contest/1114/problem/B
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-07
+ * Problem Type : Div 2 - B
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -64,22 +64,46 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n, m, k;
+    cin >> n >> m >> k;
+    vector<ll>vec (n);
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> vec[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    vector<ll>tmp = vec;
+    sort (tmp.rbegin(), tmp.rend() );
+    ll sum  = 0;
+    multiset<ll>st;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < (m * k); i++) {
+        sum += tmp[i];
+        st.insert (tmp[i]);
     }
 
-    cout << x << "\n";
+    vector<int>ans;
+    int cnt = 0;
+
+    for (int i = 0; i < n; i++) {
+        auto it = st.find (vec[i]);
+
+        if (it != st.end() ) {
+            st.erase (it);
+            cnt++;
+
+            if (cnt == m) {
+                ans.pb (i + 1);
+                cnt = 0;
+            }
+        }
+    }
+
+    cout << sum << "\n";
+
+    for (int i = 0; i < (int) ans.size() - 1; i++) {
+        cout << ans[i] << " ";
+    }
+
     return 0;
 }
-	

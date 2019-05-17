@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : B.cpp
+ * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-24
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -62,24 +62,63 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+bool isPow (int n) {
+    return (ceil (log2 (n) ) == floor (log2 (n) ) );
+}
+int countBits (int number) {
+    return (int) log2 (number) + 1;
+}
+bool checkBit (int N, int pos) {
+    return (bool) (N & (1 << pos) );
+}
+
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int x;
+    cin >> x;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
+    if (isPow (x + 1) == true) {
+        cout << 0 << "\n";
         exit (0);
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    int mask = x;
+    vector<int>ans;
+    int cnt = 0;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    while (true) {
+        int bit = countBits (mask);
+
+        if (isPow (mask + 1) == true) {
+            break;
+        }
+
+        int pos;
+
+        for (int i = bit - 1; i >= 0; i--) {
+            if (checkBit (mask, i) == false) {
+                ans.pb (i + 1);
+                pos = i + 1;
+                mask = mask ^ ( (1 << (pos) ) - 1);
+                cnt++;
+                break;
+            }
+        }
+
+        if (isPow (mask + 1) == true) {
+            break;
+        }
+
+        mask++;
+        cnt++;
     }
 
-    cout << x << "\n";
+    cout << cnt << "\n";
+
+    for (int i = 0; i < (int) ans.size(); i++) {
+        cout << ans[i] << " ";
+    }
+
+    nl;
     return 0;
 }
-	

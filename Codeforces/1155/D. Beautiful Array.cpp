@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : D. Beautiful Array.cpp
+ * Problem Link : https://codeforces.com/contest/1155/problem/D
  * OJ           : Codeforces
- * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Verdict      : Trying
+ * Date         : 2019-04-24
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -63,23 +63,14 @@ ll lcm (ll a, ll b) {
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    //~ __FastIO;
+    int n, x;
+    cin >> n >> x;
+    int ar[n + 3];
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    cout << x << "\n";
     return 0;
 }
-	

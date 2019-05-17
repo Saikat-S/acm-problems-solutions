@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : C. Neko does Maths.cpp
+ * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-24
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -62,24 +62,39 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+set<int>st;
+
+void findDiv (int n) {
+    int sq = sqrt (n);
+
+    for (int i = 1; i <= sq; i++) {
+        if (n % i == 0) {
+            st.insert (i);
+            st.insert (n / i);
+        }
+    }
+}
+
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int a, b;
+    cin >> a >> b;
+    int num = max (a, b) - min (a, b);
+    findDiv (num);
+    ll lc =  lcm (a, b);
+    ll ans = 0;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (auto it = st.begin(); it != st.end(); it++) {
+        int k = -max (a, b) % (*it);
+        k += (*it);
+        ll tmp = lcm (a + k, b + k );
+
+        if (tmp < lc) {
+            lc = tmp;
+            ans = k;
+        }
     }
 
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    cout << x << "\n";
+    cout << ans << "\n";
     return 0;
 }
-	

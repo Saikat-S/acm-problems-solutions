@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : B. Serval and Toy Bricks.cpp
+ * Problem Link : https://codeforces.com/contest/1153/problem/B
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-14
+ * Problem Type : Div 2 - B
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 105
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -63,23 +63,47 @@ ll lcm (ll a, ll b) {
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    //~ __FastIO;
+    int n, m, h;
+    cin >> n >> m >> h;
+    int N[MAX], M[MAX];
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < m; i++) {
+        cin >> M[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> N[i];
     }
 
-    cout << x << "\n";
+    int ar[MAX][MAX];
+    static int ans[MAX][MAX];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> ar[i][j];
+
+            if (ar[i][j] == 1) {
+                ans[i][j] = M[j];
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (ans[i][j] >= N[i]) {
+                ans[i][j] = N[i];
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << ans[i][j] << " ";
+        }
+
+        nl;
+    }
+
     return 0;
 }
-	

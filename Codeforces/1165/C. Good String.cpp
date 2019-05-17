@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : C. Good String.cpp
+ * Problem Link : https://codeforces.com/contest/1165/problem/C
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-15
+ * Problem Type : Div 3 - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 200005
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -64,22 +64,50 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    cin >> n;
+    char str[MAX];
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= n; i++) {
+        cin >> str[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    static char ans[MAX];
+    int j = 1;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= n; i++) {
+        if (j & 1) {
+            ans[j++] = str[i];
+
+        } else {
+            if (str[i] != ans[j - 1]) {
+                ans[j++] = str[i];
+            }
+        }
     }
 
-    cout << x << "\n";
+    if (j & 1) {
+        cout << (n - j) + 1 << "\n";
+
+        for (int i = 1; i < j; i++) {
+            cout << ans[i];
+        }
+
+        nl;
+
+    } else {
+        cout << n - (j - 2) << "\n";
+
+        for (int i = 1; i < j - 1; i++) {
+            cout << ans[i];
+        }
+
+        nl;
+    }
+
     return 0;
 }
-	
+/*
+4
+aabc
+ */

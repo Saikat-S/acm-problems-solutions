@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : C. Vasya and Multisets.cpp
+ * Problem Link : https://codeforces.com/contest/1051/problem/C
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-26
+ * Problem Type : Edu - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 105
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -64,22 +64,70 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    cin >> n;
+    int ar[MAX];
+    int chk[MAX];
+    SET (chk, 0);
+    set<int>st;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
+        chk[ar[i]]++;
+        st.insert (ar[i]);
+    }
+
+    int cnt = 0, cnt1 = 0;
+
+    for (auto it = st.begin(); it != st.end(); it++) {
+        int x = *it;
+
+        if (chk[x] == 1) {
+            cnt++;
+
+        } else if (chk[x] > 2) {
+            cnt1++;
+        }
+    }
+
+    if (cnt % 2 == 1 && cnt1 == 0) {
+        cout << "NO\n";
         exit (0);
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    int c = 0;
+    cout << "YES\n";
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    if (cnt % 2 == 0) {
+        for (int i = 0; i < n; i++) {
+            if (chk[ar[i]] == 1 && c < (cnt / 2) ) {
+                cout << "A";
+                c++;
+
+            } else {
+                cout << "B";
+            }
+        }
+
+    } else {
+        cnt++;
+        int f = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (chk[ar[i]] == 1 && c < (cnt / 2) - 1) {
+                cout << "A";
+                c++;
+
+            } else if (chk[ar[i]] > 2 && f == 0) {
+                cout << "A";
+                f = 1;
+
+            } else {
+                cout << "B";
+            }
+        }
     }
 
-    cout << x << "\n";
+    nl;
     return 0;
 }
-	

@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : B. Interesting drink.cpp
+ * Problem Link : https://codeforces.com/contest/706/problem/B
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-12
+ * Problem Type : Div 2 - B
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -64,22 +64,24 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    cin >> n;
+    int ar[MAX];
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    sort (ar, ar + n);
+    int q;
+    cin >> q;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    while (q--) {
+        int x;
+        cin >> x;
+        int up = upper_bound (ar, ar + n, x) - ar;
+        cout << up << "\n";
     }
 
-    cout << x << "\n";
     return 0;
 }
-	

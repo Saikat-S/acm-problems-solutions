@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : C. Serval and Parenthesis Sequence.cpp
+ * Problem Link : https://codeforces.com/contest/1153/problem/C
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-18
+ * Problem Type : Div 2 - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -64,22 +64,72 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    string str;
+    cin >> n;
+    cin >> str;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
+    if (n % 2 == 1) {
+        cout << ":(\n";
         exit (0);
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    int a = 0, b = 0;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        if (str[i] == '(') a++;
+        else if (str[i] == ')') b++;
     }
 
-    cout << x << "\n";
+    a = n / 2 - a;
+    b = n / 2 - b;
+    vector<int>vec;
+
+    for (int i = 0; i < n; i++) {
+        if (str[i] == '(') {
+            vec.pb (1);
+
+        } else if (str[i] == ')') {
+            vec.pb (-1);
+
+        } else {
+            if (a != 0) {
+                vec.pb (1);
+                a--;
+
+            } else if (b != 0) {
+                vec.pb (-1);
+                b--;
+            }
+        }
+    }
+
+    int sum = 0;
+
+    for (int i = 0; i < n; i++) {
+        sum += vec[i];
+
+        if ( (i < n - 1 && sum == 0) || sum < 0) {
+            cout << ":(\n";
+            exit (0);
+        }
+    }
+
+    if (sum != 0) {
+        cout << ":(\n";
+
+    } else {
+        for (int i = 0; i < n; i++) {
+            if (vec[i] == 1) {
+                cout << "(";
+
+            } else if (vec[i] == -1) {
+                cout << ")";
+            }
+        }
+
+        nl;
+    }
+
     return 0;
 }
-	

@@ -1,9 +1,9 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
- * OJ           : Codeforces
- * Verdict      : AC
- * Date         : 2019-05-10
+ * Problem Name : A.cpp
+ * Problem Link : https://codeforces.com/contest/1163/problem/A
+ * OJ           : Codeforce
+ * Verdict      : Trying
+ * Date         : 2019-05-09
  * Problem Type : Div 2 - A
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
@@ -64,22 +64,21 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n, m;
+    cin >> n >> m;
+    int x = n / 2;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
+    if (m == 0) {
+        cout << 1 << "\n";
         exit (0);
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    if (m > x) {
+        cout << (n - m) << "\n";
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    } else {
+        cout << m << "\n";
     }
 
-    cout << x << "\n";
     return 0;
 }
-	

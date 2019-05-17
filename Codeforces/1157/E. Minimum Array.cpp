@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : E. Minimum Array.cpp
+ * Problem Link : https://codeforces.com/contest/1157/problem/E
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-26
+ * Problem Type : Div 3 - E
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 200005
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -64,22 +64,46 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n;
+    int ar[MAX];
+    cin >> n;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    multiset<int>st;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        st.insert (x);
     }
 
-    cout << x << "\n";
+    int cr[MAX];
+
+    for (int i = 0; i < n; i++) {
+        int x = n - ar[i];
+        auto it = st.lower_bound (x);
+
+        if (it != st.end() ) {
+            int tmp = (ar[i] + *it) % n;
+            st.erase (it);
+            cr[i] = tmp;
+
+        } else {
+            it = st.begin();
+            int tmp = (ar[i] + *it) % n;
+            st.erase (it);
+            cr[i] = tmp;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << cr[i] << " ";
+    }
+
+    nl;
     return 0;
 }
-	
+

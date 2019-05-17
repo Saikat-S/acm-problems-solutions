@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : A.cpp
+ * Problem Link :
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-24
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -64,22 +64,47 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n, m;
+    cin >> n >> m;
+    int ar[n + 3], br[m + 3];
+    int od1 = 0;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
+
+        if (ar[i] % 2 == 1) {
+            od1++;
+        }
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    int od2 = 0;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < m; i++) {
+        cin >> br[i];
+
+        if (br[i] % 2 == 1) {
+            od2++;
+        }
     }
 
-    cout << x << "\n";
+    int ev1 = n - od1;
+    int ev2 = m - od2;
+    int ans = 0;
+
+    if (ev1 >= od2) {
+        ans += od2;
+
+    } else {
+        ans += ev1;
+    }
+
+    if (ev2 >= od1) {
+        ans += od1;
+
+    } else {
+        ans += ev2;
+    }
+
+    cout << min (m, ans) << "\n";
     return 0;
 }
-	

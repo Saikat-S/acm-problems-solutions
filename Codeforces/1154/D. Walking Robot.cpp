@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : D. Walking Robot.cpp
+ * Problem Link : https://codeforces.com/contest/1154/problem/D
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-04-22
+ * Problem Type : Div 3 - D
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -64,22 +64,50 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n, a, b, bcap, acap;
+    cin >> n >> bcap >> acap;
+    int ar[n + 3];
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= n; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
+    a = acap, b = bcap;
+    int pos;
+    bool f = 0;
 
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= n; i++) {
+        if (ar[i] == 1) {
+            if (b != 0 && a != acap) {
+                a = min (acap, a + 1);
+                b = max (0, b - 1);
+
+            } else if (a != 0) {
+                a = max (0, a - 1);
+
+            } else {
+                f = 1;
+                pos = i - 1;
+                break;
+            }
+
+        } else {
+            if (a != 0) {
+                a = max (0, a - 1);
+
+            } else if (b != 0) {
+                b = max (0, b - 1);
+
+            } else {
+                f = 1;
+                pos = i - 1;
+                break;
+            }
+        }
     }
 
-    cout << x << "\n";
+    if (f == 1) cout << pos << "\n";
+    else cout << n << "\n";
+
     return 0;
 }
-	

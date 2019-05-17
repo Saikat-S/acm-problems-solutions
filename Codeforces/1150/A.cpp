@@ -1,9 +1,9 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : A.cpp
+ * Problem Link : https://codeforces.com/contest/1150/problem/A
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
+ * Date         : 2019-04-29
  * Problem Type : Div 2 - A
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 35
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -64,22 +64,24 @@ ll lcm (ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n, m, b;
+    int ar[MAX], br[MAX];
+    cin >> n >> m >> b;
+    int mn = INF;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
+        mn = min (mn, ar[i]);
+    }
+    int mx = 0;
+
+    for (int i = 0; i < m; i++) {
+        cin >> br[i];
+        mx = max (mx, br[i]);
     }
 
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
-    }
-
-    cout << x << "\n";
+    int xx = b / mn;
+    int total = (xx * mx)  + b % mn;
+    cout << max (total, b) << "\n";
     return 0;
 }
-	

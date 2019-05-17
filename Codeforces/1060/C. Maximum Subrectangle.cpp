@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : A. Birthday.cpp
- * Problem Link : https://codeforces.com/contest/1068/problem/A
+ * Problem Name : C. Maximum Subrectangle.cpp
+ * Problem Link : https://codeforces.com/contest/1060/problem/C
  * OJ           : Codeforces
  * Verdict      : AC
- * Date         : 2019-05-10
- * Problem Type : Div 2 - A
+ * Date         : 2019-05-01
+ * Problem Type : Div 2 - C
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -45,7 +45,7 @@
 #define Min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define MAX 2005
 #define INF 1000000000
 #define MOD 1000000007
 using namespace std;
@@ -62,24 +62,55 @@ ll lcm (ll a, ll b) {
     return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
+ll ar[MAX], br[MAX];
+ll ar_min[MAX], br_min[MAX];
 int main () {
     __FastIO;
-    ll n, m, k, l;
-    cin >> n >> m >> k >> l;
+    int n, m, x;
+    cin >> n >> m;
 
-    if (m > n || (n - k) < l) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= n; i++) {
+        cin >> ar[i];
     }
 
-    ll x =  (l +  k + m - 1) /  m;
-
-    if ( (x * m) > n) {
-        cout << -1 << "\n";
-        exit (0);
+    for (int i = 1; i <= m; i++) {
+        cin >> br[i];
     }
 
-    cout << x << "\n";
+    cin >> x;
+
+    for (int i = 0; i <= max (n, m); i++) {
+        ar_min[i] = 1e18;
+        br_min[i] = 1e18;
+    }
+
+    for (int i = 1; i <= n; i++) {
+        ll sum = 0;
+
+        for (int j = i; j <= n; j++) {
+            sum += ar[j];
+            ar_min[j - i + 1] = min (ar_min[j - i + 1], sum);
+        }
+    }
+
+    for (int i = 1; i <= m; i++) {
+        ll sum = 0;
+
+        for (int j = i; j <= m; j++) {
+            sum += br[j];
+            br_min[j - i + 1] = min (br_min[j - i + 1], sum);
+        }
+    }
+    int ans = 0;
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if ( (ar_min[i] * br_min[j]) <= x) {
+                ans = max (ans, i * j);
+            }
+        }
+    }
+
+    cout << ans << "\n";
     return 0;
 }
-	
