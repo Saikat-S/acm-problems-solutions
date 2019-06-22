@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : D. Substring.cpp
- * Problem Link : https://codeforces.com/contest/919/problem/D
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2019-05-13
- * Problem Type : 
+ * Problem Name : B - Guidebook.cpp
+ * Problem Link : https://atcoder.jp/contests/abc128/tasks/abc128_b
+ * OJ           : AtCoder
+ * Verdict      : AC
+ * Date         : 2019-05-27
+ * Problem Type : B
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -58,12 +58,44 @@ std::string NumberToString ( T Number ) {
     ss << Number;
     return ss.str();
 }
-ll lcm(ll a, ll b) {
-    return a * b / __gcd(a, b);
+ll lcm (ll a, ll b) {
+    return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    //~ __FastIO;
-    return 0;
-}	
+    __FastIO;
+    map < string, int > mp;
+    int n;
+    cin >> n;
+    int k = 1;
+    vector<pii>vec[MAX];
+    set<string>res;
 
+    for (int i = 1; i <= n; i++) {
+        string str;
+        int p;
+        cin >> str >> p;
+
+        if (mp[str] == 0) {
+            mp[str] = k++;
+        }
+
+        vec[mp[str]].pb (pii (p, i) );
+        res.insert (str);
+    }
+
+    for (int i = 1; i < k; i++) {
+        sort (all (vec[i]) );
+        reverse (all (vec[i]) );
+    }
+
+    for (auto it = res.begin(); it != res.end(); it++) {
+        string str = *it;
+
+        for (int i = 0; i < (int) vec[mp[str]].size(); i++) {
+            cout << vec[mp[str]][i].second << "\n";
+        }
+    }
+
+    return 0;
+}

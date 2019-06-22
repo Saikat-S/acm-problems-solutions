@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : D. Substring.cpp
- * Problem Link : https://codeforces.com/contest/919/problem/D
- * OJ           : Codeforces
- * Verdict      : Trying
- * Date         : 2019-05-13
- * Problem Type : 
+ * Problem Name : A - Apple Pie.cpp
+ * Problem Link : https://atcoder.jp/contests/abc128/tasks/abc128_a
+ * OJ           : AtCoder
+ * Verdict      : AC
+ * Date         : 2019-05-27
+ * Problem Type : A
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -58,12 +58,14 @@ std::string NumberToString ( T Number ) {
     ss << Number;
     return ss.str();
 }
-ll lcm(ll a, ll b) {
-    return a * b / __gcd(a, b);
+ll lcm (ll a, ll b) {
+    return a * b / __gcd (a, b);
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
     //~ __FastIO;
+    int n, p;
+    cin >> n >> p;
+    cout << ( (n * 3) + p) / 2 << "\n";
     return 0;
-}	
-
+}
