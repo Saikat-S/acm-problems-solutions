@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11354 Bond.cpp
- * Problem Link : https://uva.onlinejudge.org/external/113/11354.pdf
- * OJ           : Uva
+ * Problem Name : ADAORANG - Ada and Orange Tree.cpp
+ * Problem Link : https://www.spoj.com/problems/ADAORANG/
+ * OJ           : Spoj
  * Verdict      : AC
- * Date         : 2019-09-20
- * Problem Type : LCA,MST
+ * Date         : 2019-09-19
+ * Problem Type : LCA, Bitset
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -70,7 +70,7 @@ typedef unsigned long long ull;
 #define min3(a, b, c) min(a, min(b, c))
 #define pb push_back
 #define mk make_pair
-#define MAX 50005
+#define MAX 450010
 #define INF 1000000009
 #define MOD 1000000007
 
@@ -92,104 +92,49 @@ template<typename T> int toInt (T str) {
     ss >> num;
     return num;
 }
-ll lcm (ll a, ll b) {
-    return a * b / __gcd (a, b);
-}
 /************************************ Code Start Here ******************************************************/
-struct Edge {
-    int u, v, w;
-    bool operator< (const Edge &p) const {
-        return w < p.w;
-    }
-};
-vector<Edge>Ed;
-vector<int>adj[MAX], cost[MAX];
-int par[MAX], level[MAX];
-int table[MAX][17], mx_rd[MAX][17];
-
-int find (int r) {
-    if (par[r] == r) return r ;
-    else return par[r]  = find (par[r]);
-}
-
-void MST (int n) {
-    sort (all (Ed) );
-
-    for (int i = 1; i <= n; i++) {
-        par[i] = i;
-    }
-
-    int cnt = 0;
-
-    for (int i = 0; i < (int) Ed.size(); i++) {
-        int u = Ed[i].u;
-        int v = Ed[i].v;
-        int w = Ed[i].w;
-        int uu = find (u);
-        int vv = find (v);
-
-        if (uu != vv ) {
-            par[vv] = uu;
-            cnt++;
-            adj[u].pb (v);
-            adj[v].pb (u);
-            cost[u].pb (w);
-            cost[v].pb (w);
-
-            if (cnt == n - 1) break;
-        }
-    }
-}
-
-
-
+vector<vector<int> >adj;
+bitset<251> ans[MAX];
+int par[MAX], ar[MAX];
+int table[MAX][20];
+int level[MAX];
 void dfs (int u, int p) {
-    for (int i = 0; i < (int) adj[u].size(); i++) {
-        int v = adj[u][i];
-
+    for (int v : adj[u]) {
         if (v == p) continue;
 
         par[v] = u;
         level[v] = level[u] + 1;
-        mx_rd[v][0] = cost[u][i];
         dfs (v, u);
+        ans[u] |= ans[v];
     }
 }
-
-void build_lca (int n) {
+void build (int n) {
     for (int i = 1; i <= n; i++) {
         table[i][0] = par[i];
     }
 
     for (int j = 1; (1 << j) < n; j++) {
-        for (int i = 1 ; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {
             if (table[i][j - 1] != -1) {
-                int x = table[i][j - 1];
-                table[i][j] = table[x][j - 1];
-                mx_rd[i][j] = max (mx_rd[i][j - 1], mx_rd[x][j - 1]);
-
-            } else {
-                table[i][j] = -1;
-                mx_rd[i][j] = mx_rd[i][j - 1];
+                table[i][j] = table[table[i][j - 1]][j - 1];
             }
         }
     }
 }
-
 int query (int u, int v) {
     if (level[u] < level[v]) swap (u, v);
 
-    int lim = log2 (level[u]);
+    int k = log2 (level[u]);
 
-    for (int i = lim; i >= 0; i--) {
-        if (level[u] - (1 << i) >= level[v]) {
+    for (int i = k; i >= 0; i--) {
+        if ( (level[u] - (1 << i) ) >= level[v]) {
             u = table[u][i];
         }
     }
 
     if (u == v) return u;
 
-    for (int i = lim; i >= 0; i--) {
+    for (int i = k; i >= 0; i--) {
         if (table[u][i] != -1 && table[u][i] != table[v][i]) {
             u = table[u][i];
             v = table[v][i];
@@ -199,64 +144,51 @@ int query (int u, int v) {
     return par[u];
 }
 
-int get_max (int u, int uu) {
-    int mx = 0;
-
-    for (int i = log2 (uu); i >= 0; i--) {
-        if ( (1 << i) <= uu) {
-            mx = max (mx, mx_rd[u][i]);
-            u = table[u][i];
-            uu -= (1 << i);
-        }
-
-        if (uu == 0) break;
-    }
-
-    return mx;
-}
-
 int main () {
     __FastIO;
     //~ cout << setprecision (10);
     //~ cout << fixed;
-    int n, m;
-    int t = 1;
+    int tc, n, q, r;
+    cin >> tc;
 
-    while (cin >> n >> m) {
-        for (int i = 0; i < m ; i++) {
-            Edge get;
-            cin >> get.u >> get.v >> get.w;
-            Ed.pb (get);
+    while (tc--) {
+        cin >> n >> q >> r;
+        r++;
+        adj.resize (n + 1);
+
+        for (int i = 0; i <= n; i++) {
+            ans[i].reset();
         }
 
-        MST (n);
-        par[1] = -1;
-        level[1] = 0;
+        for (int i = 1; i <= n; i++) {
+            cin >> ar[i];
+            ans[i][ar[i]] = 1;
+        }
+
+        for (int i = 1; i < n; i++) {
+            int u, v;
+            cin >> u >> v;
+            u++, v++;
+            adj[u].pb (v);
+            adj[v].pb (u);
+        }
+
+        par[r] = -1;
+        level[r] = 0;
         SET (table, -1);
-        mx_rd[1][0] = 0;
-        dfs (1, -1);
-        build_lca (n);
-        int q;
-        cin >> q;
-
-        if (t != 1) nl;
-
-        t++;
+        dfs (r, -1);
+        build (n);
 
         while (q--) {
             int u, v;
             cin >> u >> v;
-            int r = query (u, v);
-            int uu = level[u] - level[r];
-            int vv = level[v] - level[r];
-            cout << max (get_max (u, uu), get_max (v, vv) ) << "\n";
+            u++, v++;
+            int nod = query (u, v);
+            cout << ans[nod].count() << "\n";
         }
 
-        Ed.clear();
-
-        for (int i = 0; i < MAX; i++) {
+        for (int i = 0; i <= n; i++) {
             adj[i].clear();
-            cost[i].clear();
         }
     }
 
