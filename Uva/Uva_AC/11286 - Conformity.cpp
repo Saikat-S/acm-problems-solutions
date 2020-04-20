@@ -1,7 +1,7 @@
 /***************************************************
- * Problem Name : 11572 - Unique Snowflakes.cpp
- * Problem Link :
- * OJ           :
+ * Problem Name : 11286 - Conformity.cpp
+ * Problem Link : https://onlinejudge.org/external/112/11286.pdf
+ * OJ           : Uva
  * Verdict      : AC
  * Date         : 2020-03-05
  * Problem Type :
@@ -97,50 +97,36 @@ ll lcm ( ll a, ll b ) {
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    //~ __FastIO;
+    __FastIO;
     //~ cout << setprecision (10) << fixed;
-    int tc;
-    cin >> tc;
+    int n;
 
-    for (int t = 1; t <= tc; t++) {
-        int n;
-        cin >> n;
-        vector<int>vec (n + 1);
+    while (cin >> n) {
+        if (n == 0) break;
 
-        for (int i = 1; i <= n; i++) {
-            cin >> vec[i];
-        }
+        vector<int>vec[n];
+        map<int, set<int> >mp;
+        map<set<int>, int>mm;
+        int mx = 0;
 
-        int mx = 0, cnt = 0;
-        int i = 1, j = 1;
-        map<int, int>mp;
+        for (int i = 0; i < n; i++) {
+            set<int>st;
 
-        while (j <= n) {
-            int x = vec[j];
-
-            if (mp[x] == 0) {
-                cnt++;
-                mp[x]++;
-                j++;
-
-            } else {
-                while (vec[i] != vec[j]) {
-                    int xx = vec[i];
-                    mp[xx]--;
-
-                    if (mp[xx] == 0) cnt--;
-
-                    i++;
-                }
-
-                i++;
-                j++;
+            for (int j = 0; j < 5; j++) {
+                int x;
+                cin >> x;
+                st.insert (x);
             }
 
-            mx = max (mx, cnt);
+            mp[i] = st;
+            mm[st]++;
+            mx = max (mx, mm[st]);
         }
-
-        cout << mx << "\n";
+        int cnt = 0;
+        for(auto it : mp){
+			if(mm[it.second] == mx)cnt++;
+		}
+		cout << cnt << "\n";
     }
 
     return 0;

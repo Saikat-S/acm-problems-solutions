@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11572 - Unique Snowflakes.cpp
+ * Problem Name : 11955 Binomial Theorem.cpp
  * Problem Link :
- * OJ           :
+ * OJ           : Uva
  * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type :
+ * Date         : 2020-04-18
+ * Problem Type : Implementation
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -63,7 +63,7 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
@@ -96,51 +96,80 @@ ll lcm ( ll a, ll b ) {
     return ( a / __gcd ( a, b ) ) * b;
 }
 /************************************ Code Start Here ******************************************************/
+ll c_pascal (ll n, ll r) {
+    ll v = 1;
+
+    for (int i = 1; i <= r; i++) {
+        v = v * (n + 1 - i) / i;
+    }
+
+    return v;
+}
 int main () {
-    //~ __FastIO;
+    __FastIO;
     //~ cout << setprecision (10) << fixed;
     int tc;
     cin >> tc;
 
     for (int t = 1; t <= tc; t++) {
-        int n;
-        cin >> n;
-        vector<int>vec (n + 1);
+        string str;
+        cin >> str;
+        string a, b;
+        int k = 0;
+        int pos = 1;
 
-        for (int i = 1; i <= n; i++) {
-            cin >> vec[i];
+        for (; str[pos] != '+'; pos++) {
+            a += str[pos];
         }
 
-        int mx = 0, cnt = 0;
-        int i = 1, j = 1;
-        map<int, int>mp;
+        for (pos = pos + 1; str[pos] != ')'; pos++) {
+            b += str[pos];
+        }
 
-        while (j <= n) {
-            int x = vec[j];
+        string s_num = "";
 
-            if (mp[x] == 0) {
-                cnt++;
-                mp[x]++;
-                j++;
+        for (pos = pos + 2; pos < (int) str.size(); pos++) {
+            s_num += str[pos];
+        }
 
-            } else {
-                while (vec[i] != vec[j]) {
-                    int xx = vec[i];
-                    mp[xx]--;
+        k = toInt (s_num);
+        string ans = "";
 
-                    if (mp[xx] == 0) cnt--;
+        for (int i = k, j = 0; i >= 0; i--, j++) {
+            ll co = c_pascal (k, j);
 
-                    i++;
-                }
-
-                i++;
-                j++;
+            if (co != 1) {
+                ans += toString (co);
+                ans += "*";
             }
 
-            mx = max (mx, cnt);
+            bool f = false;
+
+            if (i > 0) {
+                ans += a;
+                f = true;
+
+                if (i > 1) {
+                    ans += "^";
+                    ans += toString (i);
+                }
+            }
+
+            if (j > 0) {
+                if (f) ans += "*";
+
+                ans += b;
+
+                if (j > 1) {
+                    ans += "^";
+                    ans += toString (j);
+                }
+            }
+
+            if (i != 0) ans += "+";
         }
 
-        cout << mx << "\n";
+        cout << "Case " << t << ": " << ans << "\n";
     }
 
     return 0;

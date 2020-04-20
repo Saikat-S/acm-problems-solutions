@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11572 - Unique Snowflakes.cpp
- * Problem Link :
- * OJ           :
+ * Problem Name : 10172 - The Lonesome Cargo Distributor.cpp
+ * Problem Link : https://onlinejudge.org/external/101/10172.pdf
+ * OJ           : Uva
  * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type :
+ * Date         : 2020-03-28
+ * Problem Type : STL
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -63,7 +63,7 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
@@ -96,52 +96,119 @@ ll lcm ( ll a, ll b ) {
     return ( a / __gcd ( a, b ) ) * b;
 }
 /************************************ Code Start Here ******************************************************/
+queue<int>Q[105];
+bool check (int n) {
+    for (int i = 1; i <= n; i++) {
+        if (!Q[i].empty() ) return false;
+    }
+
+    return true;
+}
 int main () {
-    //~ __FastIO;
+    __FastIO;
     //~ cout << setprecision (10) << fixed;
     int tc;
     cin >> tc;
 
-    for (int t = 1; t <= tc; t++) {
-        int n;
-        cin >> n;
-        vector<int>vec (n + 1);
+    while (tc--) {
+        int n, s_sz, q_sz;
+        cin >> n >> s_sz >> q_sz;
 
         for (int i = 1; i <= n; i++) {
-            cin >> vec[i];
+            int x;
+            cin >> x;
+
+            while (x--) {
+                int c;
+                cin >> c;
+                Q[i].push (c);
+            }
         }
 
-        int mx = 0, cnt = 0;
-        int i = 1, j = 1;
-        map<int, int>mp;
+        stack<int>S;
+        int sum = 0;
+        int cur = 1;
 
-        while (j <= n) {
-            int x = vec[j];
-
-            if (mp[x] == 0) {
-                cnt++;
-                mp[x]++;
-                j++;
-
-            } else {
-                while (vec[i] != vec[j]) {
-                    int xx = vec[i];
-                    mp[xx]--;
-
-                    if (mp[xx] == 0) cnt--;
-
-                    i++;
-                }
-
-                i++;
-                j++;
+        while (1) {
+            if (S.empty() && check (n) ) {
+                break;
             }
 
-            mx = max (mx, cnt);
+            if (!S.empty() ) {
+                while (!S.empty() ) {
+                    int x = S.top();
+
+                    if (x == cur) {
+                        S.pop();
+                        sum++;
+
+                    } else {
+                        if ( (int) Q[cur].size() < q_sz) {
+                            Q[cur].push (x);
+                            S.pop();
+                            sum++;
+
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                while (!Q[cur].empty() ) {
+                    int x = Q[cur].front();
+
+                    if ( (int) S.size() < s_sz) {
+                        S.push (x);
+                        Q[cur].pop();
+                        sum++;
+
+                    } else {
+                        break;
+                    }
+                }
+
+                if (S.empty() && check (n) ) {
+                    break;
+                }
+
+                cur++;
+                sum += 2;
+
+                if (cur > n) cur = 1;
+
+            } else {
+                while (!Q[cur].empty() ) {
+                    int x = Q[cur].front();
+
+                    if ( (int) S.size() < s_sz) {
+                        S.push (x);
+                        Q[cur].pop();
+                        sum++;
+
+                    } else {
+                        break;
+                    }
+                }
+
+                if (S.empty() && check (n) ) {
+                    break;
+                }
+
+                cur++;
+                sum += 2;
+
+                if (cur > n) cur = 1;
+            }
         }
 
-        cout << mx << "\n";
+        cout << sum << "\n";
+
+        for (int i = 1; i <= n; i++) {
+            while (!Q[i].empty() ) Q[i].pop();
+        }
     }
 
     return 0;
 }
+
+

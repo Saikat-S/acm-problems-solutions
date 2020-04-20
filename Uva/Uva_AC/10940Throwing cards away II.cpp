@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11572 - Unique Snowflakes.cpp
- * Problem Link :
- * OJ           :
+ * Problem Name : 10940Throwing cards away II.cpp
+ * Problem Link : https://onlinejudge.org/external/109/10940.pdf
+ * OJ           : Uva
  * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type :
+ * Date         : 2020-03-28
+ * Problem Type : AdHoc
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -63,7 +63,7 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
@@ -96,51 +96,22 @@ ll lcm ( ll a, ll b ) {
     return ( a / __gcd ( a, b ) ) * b;
 }
 /************************************ Code Start Here ******************************************************/
+int solve (int n) {
+    int nn = log2 (n);
+    int num = n - (1 << nn);
+
+    if (num == 0) return n;
+    else return num * 2;
+}
+
 int main () {
-    //~ __FastIO;
-    //~ cout << setprecision (10) << fixed;
-    int tc;
-    cin >> tc;
+    __FastIO;
+    int n;
 
-    for (int t = 1; t <= tc; t++) {
-        int n;
-        cin >> n;
-        vector<int>vec (n + 1);
+    while (cin >> n) {
+        if (n == 0) break;
 
-        for (int i = 1; i <= n; i++) {
-            cin >> vec[i];
-        }
-
-        int mx = 0, cnt = 0;
-        int i = 1, j = 1;
-        map<int, int>mp;
-
-        while (j <= n) {
-            int x = vec[j];
-
-            if (mp[x] == 0) {
-                cnt++;
-                mp[x]++;
-                j++;
-
-            } else {
-                while (vec[i] != vec[j]) {
-                    int xx = vec[i];
-                    mp[xx]--;
-
-                    if (mp[xx] == 0) cnt--;
-
-                    i++;
-                }
-
-                i++;
-                j++;
-            }
-
-            mx = max (mx, cnt);
-        }
-
-        cout << mx << "\n";
+        cout <<  solve (n) << "\n";
     }
 
     return 0;

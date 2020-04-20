@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11572 - Unique Snowflakes.cpp
- * Problem Link :
- * OJ           :
- * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type :
+ * Problem Name : 10258 - Contest Scoreboard.cpp
+ * Problem Link : https://onlinejudge.org/external/102/10258.pdf
+ * OJ           : Uva
+ * Verdict      : AC 
+ * Date         : 2020-03-28
+ * Problem Type : STL
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -63,7 +63,7 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
@@ -96,51 +96,87 @@ ll lcm ( ll a, ll b ) {
     return ( a / __gcd ( a, b ) ) * b;
 }
 /************************************ Code Start Here ******************************************************/
+vector<string> purse (string str) {
+    stringstream ss;
+    ss << str;
+    vector<string>vec;
+    string num;
+
+    while (ss >> num) {
+        vec.pb (num);
+    }
+
+    return vec;
+}
+
+bool cmp (pair<int, pair<int, int> > a, pair<int, pair<int, int> > b) {
+    if (a.first == b.first) {
+        if (a.second.first == b.second.first) {
+            return a.second.second < b.second.second;
+
+        } else {
+            return a.second.first < b.second.first;
+        }
+
+    } else {
+        return a.first > b.first;
+    }
+}
+
 int main () {
-    //~ __FastIO;
+    __FastIO;
     //~ cout << setprecision (10) << fixed;
     int tc;
     cin >> tc;
+    cin.ignore();
+    cin.ignore();
+    int t = 1;
 
-    for (int t = 1; t <= tc; t++) {
-        int n;
-        cin >> n;
-        vector<int>vec (n + 1);
+    while (t <= tc) {
+        int user, prob_id, sb_time;
+        string ver;
+        vector<pair<int, pair<int, int> > >vec (105);
+        map<int, map<int, int> >mp, ac;
+        map<int, bool>p_user;
+        string str;
 
-        for (int i = 1; i <= n; i++) {
-            cin >> vec[i];
-        }
+        while (getline (cin, str) ) {
+            if (str.size() == 0) break;
 
-        int mx = 0, cnt = 0;
-        int i = 1, j = 1;
-        map<int, int>mp;
+            vector<string>vv = purse (str);
+            user = toInt (vv[0]), prob_id = toInt (vv[1]), sb_time = toInt (vv[2]),
+            ver = vv[3];
 
-        while (j <= n) {
-            int x = vec[j];
+            if (ver[0] == 'C') {
+                if (ac[user][prob_id] == 1) continue;
 
-            if (mp[x] == 0) {
-                cnt++;
-                mp[x]++;
-                j++;
+                int now_time = sb_time + mp[user][prob_id] * 20;
+                int cnt = vec[user].first + 1;
+                int total_time = vec[user].second.first + now_time;
+                vec[user] = {cnt, {total_time, user}};
+                ac[user][prob_id] = 1;
 
-            } else {
-                while (vec[i] != vec[j]) {
-                    int xx = vec[i];
-                    mp[xx]--;
-
-                    if (mp[xx] == 0) cnt--;
-
-                    i++;
-                }
-
-                i++;
-                j++;
+            } else if (ver[0] == 'I') {
+                mp[user][prob_id]++;
             }
 
-            mx = max (mx, cnt);
+            int cnt = vec[user].first;
+            int total_time = vec[user].second.first;
+            vec[user] = {cnt, {total_time, user}};
+            p_user[user] = true;
         }
 
-        cout << mx << "\n";
+        sort (all (vec), cmp);
+
+        if (t != 1) nl;
+
+        t++;
+
+        for (auto it : vec) {
+            if (p_user[it.second.second] == false) continue;
+
+            cout << it.second.second << " " << it.first << " " << it.second.first << "\n";
+        }
     }
 
     return 0;

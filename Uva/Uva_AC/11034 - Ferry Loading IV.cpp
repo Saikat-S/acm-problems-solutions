@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11572 - Unique Snowflakes.cpp
- * Problem Link :
- * OJ           :
+ * Problem Name : 11034 - Ferry Loading IV.cpp
+ * Problem Link : https://onlinejudge.org/external/110/11034.pdf
+ * OJ           : Uva
  * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type :
+ * Date         : 2020-03-28
+ * Problem Type : STL
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -63,7 +63,7 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
@@ -97,50 +97,72 @@ ll lcm ( ll a, ll b ) {
 }
 /************************************ Code Start Here ******************************************************/
 int main () {
-    //~ __FastIO;
+    __FastIO;
     //~ cout << setprecision (10) << fixed;
     int tc;
     cin >> tc;
 
-    for (int t = 1; t <= tc; t++) {
-        int n;
-        cin >> n;
-        vector<int>vec (n + 1);
+    while (tc--) {
+        queue<int>left, right;
+        int l, m;
+        cin >> l >> m;
+        l *= 100;
 
-        for (int i = 1; i <= n; i++) {
-            cin >> vec[i];
-        }
+        for (int i = 0; i < m; i++) {
+            int x;
+            string s;
+            cin >> x >> s;
 
-        int mx = 0, cnt = 0;
-        int i = 1, j = 1;
-        map<int, int>mp;
-
-        while (j <= n) {
-            int x = vec[j];
-
-            if (mp[x] == 0) {
-                cnt++;
-                mp[x]++;
-                j++;
+            if (s == "left") {
+                left.push (x);
 
             } else {
-                while (vec[i] != vec[j]) {
-                    int xx = vec[i];
-                    mp[xx]--;
-
-                    if (mp[xx] == 0) cnt--;
-
-                    i++;
-                }
-
-                i++;
-                j++;
+                right.push (x);
             }
-
-            mx = max (mx, cnt);
         }
 
-        cout << mx << "\n";
+        int cnt = 0;
+        bool f = false;
+
+        while (1) {
+            if (left.empty() && right.empty() ) {
+                break;
+            }
+
+            if (!f) {
+                int sum = 0;
+
+                while (!left.empty() ) {
+                    if (sum + left.front() <= l) {
+                        sum += left.front();
+                        left.pop();
+
+                    } else {
+                        break;
+                    }
+                }
+
+                cnt++;
+                f = true;
+
+            } else {
+                int sum = 0;
+
+                while (!right.empty() ) {
+                    if (sum + right.front() <= l) {
+                        sum += right.front();
+                        right.pop();
+
+                    } else {
+                        break;
+                    }
+                }
+
+                cnt++;
+                f = false;
+            }
+        }
+        cout << cnt << "\n";
     }
 
     return 0;
