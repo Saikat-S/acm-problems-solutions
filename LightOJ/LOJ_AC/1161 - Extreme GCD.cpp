@@ -55,7 +55,7 @@ ll lcm(ll a, ll b) {
 /************************************ Code Start Here ******************************************************/
 ll MF[MAX], d[MAX];
 char ar[MAX];
-void  Mobius_Function(ll n) {
+void Mobius_Function(ll n) {
     ar[0] = ar[1] = 1;
     for (ll i = 1; i < n; i++) MF[i] = 1;
     for (ll i = 2; i < n; i++) {
