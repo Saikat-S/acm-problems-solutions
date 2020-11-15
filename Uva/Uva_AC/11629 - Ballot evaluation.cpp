@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11286 - Conformity.cpp
- * Problem Link : https://onlinejudge.org/external/112/11286.pdf
+ * Problem Name : 11629 - Ballot evaluation.cpp
+ * Problem Link : https://onlinejudge.org/external/116/11629.pdf
  * OJ           : Uva
  * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type : STL
+ * Date         : 2020-11-15
+ * Problem Type :
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -31,6 +31,7 @@
 #include <cassert>
 #include <iomanip>
 #include <random>
+#include <chrono>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 
@@ -63,13 +64,17 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
 #define min3(a, b, c) min(a, min(b, c))
+#define un_map unordered_map
+#define un_set unordered_set
 #define pb push_back
 #define mk make_pair
+#define F first
+#define S second
 #define MAX 100005
 #define INF 1000000009
 #define MOD 1000000007
@@ -92,41 +97,92 @@ template<typename T> int toInt (T str) {
     ss >> num;
     return num;
 }
+struct custom_hash {
+    static uint64_t splitmix64 (uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30) ) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27) ) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator() (uint64_t x) const {
+        static const uint64_t FIXED_RANDOM =
+                        chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64 (x + FIXED_RANDOM);
+    }
+};
 ll lcm ( ll a, ll b ) {
     return ( a / __gcd ( a, b ) ) * b;
 }
 /************************************ Code Start Here ******************************************************/
+vector<string> purse (string str) {
+    stringstream ss;
+    ss << str;
+    vector<string>vec;
+    string num;
+
+    while (ss >> num) {
+        vec.pb (num);
+    }
+
+    return vec;
+}
 int main () {
     __FastIO;
     //~ cout << setprecision (10) << fixed;
-    int n;
+    int p, g;
+    cin >> p >> g;
+    map<string, double>mp;
 
-    while (cin >> n) {
-        if (n == 0) break;
+    for (int i = 0; i < p; i++) {
+        string str;
+        double val;
+        cin >> str >> val;
+        mp[str] = val * 100;
+    }
 
-        vector<int>vec[n];
-        map<int, set<int> >mp;
-        map<set<int>, int>mm;
-        int mx = 0;
+    cin.ignore();
+    int t = 1;
 
-        for (int i = 0; i < n; i++) {
-            set<int>st;
+    while (g--) {
+        string str;
+        getline (cin, str);
+        vector<string>vec = purse (str);
+        int sz = vec.size();
+        int val = toInt (vec[sz - 1]);
+        string sign = vec[sz - 2];
+        double sum = 0;
 
-            for (int j = 0; j < 5; j++) {
-                int x;
-                cin >> x;
-                st.insert (x);
-            }
-
-            mp[i] = st;
-            mm[st]++;
-            mx = max (mx, mm[st]);
+        for (int i = 0; i < sz - 2; i++) {
+            sum += mp[vec[i]];
         }
-        int cnt = 0;
-        for(auto it : mp){
-			if(mm[it.second] == mx)cnt++;
-		}
-		cout << cnt << "\n";
+
+        bool f = 0;
+        val = val * 100;
+
+        if (sign == ">") {
+            if (sum > val) f = 1;
+
+        } else if (sign == "<") {
+            if (sum < val) f = 1;
+
+        } else if (sign == ">=") {
+            if (sum >= val) f = 1;
+
+        } else if (sign == "<=") {
+            if (sum <= val) f = 1;
+
+        } else {
+            if (sum == val) f = 1;
+        }
+
+        if (!f) {
+            cout << "Guess #" << t++ << " was incorrect.\n";
+
+        } else {
+            cout << "Guess #" << t++ << " was correct.\n";
+        }
     }
 
     return 0;

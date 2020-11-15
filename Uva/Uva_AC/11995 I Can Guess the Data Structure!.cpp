@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11286 - Conformity.cpp
- * Problem Link : https://onlinejudge.org/external/112/11286.pdf
+ * Problem Name : 11995 I Can Guess the Data Structure!.cpp
+ * Problem Link : https://onlinejudge.org/external/119/11995.pdf
  * OJ           : Uva
  * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type : STL
+ * Date         : 2020-10-12
+ * Problem Type : adHoc
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -31,6 +31,7 @@
 #include <cassert>
 #include <iomanip>
 #include <random>
+#include <chrono>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 
@@ -63,13 +64,17 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
 #define min3(a, b, c) min(a, min(b, c))
+#define un_map unordered_map
+#define un_set unordered_set
 #define pb push_back
 #define mk make_pair
+#define F first
+#define S second
 #define MAX 100005
 #define INF 1000000009
 #define MOD 1000000007
@@ -92,6 +97,21 @@ template<typename T> int toInt (T str) {
     ss >> num;
     return num;
 }
+struct custom_hash {
+    static uint64_t splitmix64 (uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30) ) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27) ) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator() (uint64_t x) const {
+        static const uint64_t FIXED_RANDOM =
+                        chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64 (x + FIXED_RANDOM);
+    }
+};
 ll lcm ( ll a, ll b ) {
     return ( a / __gcd ( a, b ) ) * b;
 }
@@ -102,31 +122,94 @@ int main () {
     int n;
 
     while (cin >> n) {
-        if (n == 0) break;
-
-        vector<int>vec[n];
-        map<int, set<int> >mp;
-        map<set<int>, int>mm;
-        int mx = 0;
+        int P = 0, S = 0, Q = 0;
+        queue<int>q;
+        stack<int>st;
+        priority_queue<int>pq;
 
         for (int i = 0; i < n; i++) {
-            set<int>st;
+            int x, c;
+            cin >> c >> x;
 
-            for (int j = 0; j < 5; j++) {
-                int x;
-                cin >> x;
-                st.insert (x);
+            if (c == 1) {
+                q.push (x);
+                st.push (x);
+                pq.push (x);
+
+            } else {
+                // queue
+                if (!q.empty() ) {
+                    int tmp =  q.front();
+
+                    if (tmp != x) {
+                        Q = 1;
+                    }
+
+                    q.pop();
+
+                } else {
+                    Q =  1;
+                }
+
+                // stack
+                if (!st.empty() ) {
+                    int tmp =  st.top();
+
+                    if (tmp != x) {
+                        S = 1;
+                    }
+
+                    st.pop();
+
+                } else {
+                    S =  1;
+                }
+
+                // priority-queue
+                if (!pq.empty() ) {
+                    int tmp =  pq.top();
+
+                    if (tmp != x) {
+                        P = 1;
+                    }
+
+                    pq.pop();
+
+                } else {
+                    P =  1;
+                }
+            }
+        }
+
+        //~ cout << Q << " " << S << " " << P << " -d\n";
+
+        if (S == 1 && Q == 1 && P == 1) {
+            cout << "impossible\n";
+
+        } else if (S == 0) {
+            if (Q == 0 || P == 0) {
+                cout << "not sure\n";
+
+            } else {
+                cout << "stack\n";
             }
 
-            mp[i] = st;
-            mm[st]++;
-            mx = max (mx, mm[st]);
+        } else if (Q == 0) {
+            if (S == 0 || P == 0) {
+                cout << "not sure\n";
+
+            } else {
+                cout << "queue\n";
+            }
+
+        } else if (P == 0) {
+            if (S == 0 || Q == 0) {
+                cout << "not sure\n";
+
+            } else {
+                cout << "priority queue\n";
+            }
         }
-        int cnt = 0;
-        for(auto it : mp){
-			if(mm[it.second] == mx)cnt++;
-		}
-		cout << cnt << "\n";
     }
 
     return 0;

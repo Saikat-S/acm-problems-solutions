@@ -1,10 +1,10 @@
 /***************************************************
- * Problem Name : 11286 - Conformity.cpp
- * Problem Link : https://onlinejudge.org/external/112/11286.pdf
+ * Problem Name : 1644 Prime Gap.cpp
+ * Problem Link : https://onlinejudge.org/external/16/1644.pdf
  * OJ           : Uva
  * Verdict      : AC
- * Date         : 2020-03-05
- * Problem Type : STL
+ * Date         : 2020-06-25
+ * Problem Type : Number Theory
  * Author Name  : Saikat Sharma
  * University   : CSE, MBSTU
  ***************************************************/
@@ -31,6 +31,7 @@
 #include <cassert>
 #include <iomanip>
 #include <random>
+#include <chrono>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 
@@ -63,14 +64,18 @@ typedef unsigned long long ull;
 #define rall(v) v.begin(), v.end()
 #define srt(v) sort(v.begin(), v.end())
 #define r_srt(v) sort(v.rbegin(), v.rend())
-#define rev(v) reverse(v.begin(), v.end())
+#define rev(v) reverse(v.rbegin(), v.rend())
 #define Sqr(x) ((x)*(x))
 #define Mod(x, m) ((((x) % (m)) + (m)) % (m))
 #define max3(a, b, c) max(a, max(b, c))
 #define min3(a, b, c) min(a, min(b, c))
+#define un_map unordered_map
+#define un_set unordered_set
 #define pb push_back
 #define mk make_pair
-#define MAX 100005
+#define F first
+#define S second
+#define MAX 2000005
 #define INF 1000000009
 #define MOD 1000000007
 
@@ -92,41 +97,76 @@ template<typename T> int toInt (T str) {
     ss >> num;
     return num;
 }
+struct custom_hash {
+    static uint64_t splitmix64 (uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30) ) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27) ) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator() (uint64_t x) const {
+        static const uint64_t FIXED_RANDOM =
+                        chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64 (x + FIXED_RANDOM);
+    }
+};
 ll lcm ( ll a, ll b ) {
     return ( a / __gcd ( a, b ) ) * b;
 }
 /************************************ Code Start Here ******************************************************/
+//~ vector<int>prime;
+//~ char mark[MAX];
+//~ void sieve (int n) {
+//~ int sq = sqrt (n) + 1;
+//~ mark[0] = mark[1] = 1;
+
+//~ for (int i = 4; i < n; i += 2) {
+//~ mark[i] = 1;
+//~ }
+
+//~ for (int i = 3; i <= sq; i++) {
+//~ for (int j = i * i; j < n; j += (2 * i) ) {
+//~ mark[j] = 1;
+//~ }
+//~ }
+
+//~ for (int i = 1; i < n; i++) {
+//~ if (!mark[i]) prime.pb (i);
+//~ }
+//~ }
+int lp[MAX];
+vector<int>pr;
+void linear_sieve (int N) {
+    for (int i = 2; i <= N; ++i) {
+        if (lp[i] == 0) {
+            lp[i] = i;
+            pr.pb (i);
+        }
+
+        for (int j = 0; j < (int) pr.size() && pr[j] <= lp[i] && i * pr[j] <= N; ++j) {
+            lp[i * pr[j]] = pr[j];
+        }
+    }
+}
 int main () {
     __FastIO;
     //~ cout << setprecision (10) << fixed;
+    //~ sieve (MAX);
+    linear_sieve (MAX - 3);
     int n;
 
     while (cin >> n) {
         if (n == 0) break;
 
-        vector<int>vec[n];
-        map<int, set<int> >mp;
-        map<set<int>, int>mm;
-        int mx = 0;
+        if (lp[n] == n) {
+            cout << 0 << "\n";
 
-        for (int i = 0; i < n; i++) {
-            set<int>st;
-
-            for (int j = 0; j < 5; j++) {
-                int x;
-                cin >> x;
-                st.insert (x);
-            }
-
-            mp[i] = st;
-            mm[st]++;
-            mx = max (mx, mm[st]);
+        } else {
+            int lw = lower_bound (all (pr), n) - pr.begin();
+            cout << pr[lw] - pr[lw - 1] << "\n";
         }
-        int cnt = 0;
-        for(auto it : mp){
-			if(mm[it.second] == mx)cnt++;
-		}
-		cout << cnt << "\n";
     }
 
     return 0;
