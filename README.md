@@ -10,6 +10,3 @@
 - Toph
 - Uva Live
 - Uva
-
-
-Hello, People....
